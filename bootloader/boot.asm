@@ -1,25 +1,23 @@
-[org 0x7c00]
+%include "bootheader.asm" 
 
 
-	mov si , msg
-	call loop
+	mov SI , msg
+	call print_string
+	mov SI , msg_1
+	call print_string
+	mov SI , msg_2
+	call print_string
+	mov SI , msg_3
+	call print_string	
+	call user_input
+	call print_char
 	jmp $
 
-
-loop:
-   strloop:
-	mov al , [si]
-	cmp al , 0x0
-	jne print
-	ret
-print:
-	mov ah , 0x0E
-	int 0x10
-	add si , 1 
-	jmp strloop
-
-
-msg db "SaharaOS" , 0x0
+%include "user_inputs.asm" 
+msg db "SaharaOS" ,0x0D, 0x0A, 0x0
+msg_1 db "16 bits mode ... Write something ?" , 0x0D , 0x0A , 0x0
+msg_2 db "1) yes(y)" , 0x0D , 0x0A , 0x0
+msg_3 db "2) no(n)" , 0x0D , 0x0A , 0x0
 times 510 - ($-$$) db 0 
 dw 0xaa55
 
