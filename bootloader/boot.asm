@@ -1,55 +1,83 @@
 %ifndef BOOT_ASM
 %define BOOT_ASM
-%include "bootheader.asm" 
+
+[org 0x7C00]
+[bits 16]
 
 
-
-
-
-
-
-        mov SI , msg
-        call print_string
-	mov SI , msg_1
+	mov BP , 0x9000
+	mov SP , BP
+	mov SI , RM_MSG
 	call print_string
-	mov SI , msg_2
-	call print_string
-	mov SI , msg_3
-	call print_string
-	mov SI , msg_4
-	call print_string
-	call user_input
-	call print_char
-		
+	call switch_pm
+
+
+%include "print.asm" 
+%include "GDT.asm" 
+
+
+switch_pm:
+	cli
+	lgdt [gdt_descriptor]
+	mov EAX , CR0
+	or EAX , 1
+	mov CR0 , EAX
+	jmp CODE_SEG:PM_init
+
+[bits 32]
+
+PM_init:
+	mov AX , DATA_SEG
+	mov DS , AX
+	mov SS , AX
+	mov ES , AX
+	mov FS , AX
+	mov GS , AX
+
+	mov EBP , 0x90000
+	mov ESP , EBP
+	
+	call BEGIN_PM
 	jmp $
 
+VIDEO_ADDRESS equ 0xB8000
+BW	      equ 0x0F
+
+BEGIN_PM : 
+	mov EBX , PM_MSG
+	call print_string_pm
+
+print_string_pm:
+	pusha
+	mov EDX , VIDEO_ADDRESS
+	jmp string_loop_pm
+
+string_loop_pm:
+
+	mov AL , [EBX]
+	mov AH , BW
+	cmp AL , 0x0
+	je finish_pm
+	mov [EDX] , AX
+	add EDX , 2
+	inc EBX
+	jmp string_loop_pm
+
+
+finish_pm:
+	popa
+	ret
 
 
 
-%include "user_inputs.asm" 
-
-
-
-
-
-msg db "SaharaOS" ,0x0D, 0x0A, 0x00
-
-msg_1 db "16 bits mode ... Write a memory location (16 bits or 8 bits) :" , 0x0D , 0x0A , 0x0
-
-msg_2 db "1) (y)es" , 0x0D , 0x0A , 0x0
-
-msg_3 db "2) (n)o" , 0x0D , 0x0A , 0x0
-
-msg_4 db "3) (q)uit" , 0x0D , 0x0A , 0x0
-
-ERROR db "choose (y) or (n) , you printed : " , 0x0D , 0x0A , 0x0
-
-QUIT db "no message will be displayed." , 0x0D , 0x0A , 0x0
-
-
-
+BOOT_DRIVE: db 0
+RM_MSG db "SAHARA OS , Real mode" , 0x0
+PM_MSG db "SAHARA OS , Protected mode" , 0x0
 
 times 510 - ($-$$) db 0 
 dw 0xaa55
+
+
+
 
 %endif 

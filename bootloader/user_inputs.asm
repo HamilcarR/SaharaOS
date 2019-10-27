@@ -3,27 +3,24 @@
 
 %include "print.asm" 
 %include "hexprint.asm" 
-
-
-
+%include "debug.asm"
 
 ;check AL for scanned key 
-
-user_input:
-	mov CL , 0x79 ; 'y' char
-	mov CH , 0x6E ; 'n' char
-	mov DH , 0x71 ; 'q' char
+user_input:	
 
 loop:
 
 	mov AH , 0x0
 	int 0x16
-	cmp AL , CL
+	cmp AL , 0x79 ; "y" 
 	je do_something
-	cmp AL , CH
+	cmp AL , 0x6E ; "n" 
 	je do_nothing
-	cmp AL , DH
+	cmp AL , 0x71 ; "q" 
 	je shut_down
+	cmp AL , 0x64 ; "d" 
+	je debug_menu
+
 	push SI
 	mov SI , ERROR
 	call print_string
@@ -39,13 +36,11 @@ do_nothing:
 	jmp loop	
 	
 do_something:
-	call user_enter_string
 	jmp finish
 	
 	
 finish:	
 	ret
-
 
 
 shut_down:

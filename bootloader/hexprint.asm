@@ -43,7 +43,7 @@ hexout_8bits :
 	add SI , AX 
 	mov AL , [SI] 
 	call print_char 
-		
+
 	ret
 
 
@@ -63,11 +63,19 @@ hexout_16bits:
 hexout_8 : 
 	call print_template
 	call hexout_8bits
+	mov AL , 0x0D
+	call print_char
+	mov AL , 0x0A
+	call print_char
 	ret
 
 hexout_16 :
 	call print_template
 	call hexout_16bits
+	mov AL , 0x0D
+	call print_char
+	mov AL , 0x0A
+	call print_char	
 	ret
 
 
