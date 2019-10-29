@@ -2,18 +2,34 @@
 %define BOOT_ASM
 
 [org 0x7C00]
+
+KERNEL_OFFSET equ 0x1000
+
 [bits 16]
 
-
+	mov [BOOT_DRIVE] , dl
 	mov BP , 0x9000
 	mov SP , BP
-	mov SI , RM_MSG
-	call print_string
+
+	call load_kernel
 	call switch_pm
 
-
-%include "print.asm" 
+	
+%include "print.asm"
+%include "hexprint.asm"
+%include "disk_io.asm" 
 %include "GDT.asm" 
+
+
+load_kernel :
+	mov SI , KERNEL_MSG
+	call print_string
+	mov BX , KERNEL_OFFSET
+	mov DH , 15 
+	mov DL , [BOOT_DRIVE]
+	call disk_load
+	ret
+
 
 
 switch_pm:
@@ -25,7 +41,6 @@ switch_pm:
 	jmp CODE_SEG:PM_init
 
 [bits 32]
-
 PM_init:
 	mov AX , DATA_SEG
 	mov DS , AX
@@ -46,6 +61,8 @@ BW	      equ 0x0F
 BEGIN_PM : 
 	mov EBX , PM_MSG
 	call print_string_pm
+	call KERNEL_OFFSET
+	ret
 
 print_string_pm:
 	pusha
@@ -73,10 +90,10 @@ finish_pm:
 BOOT_DRIVE: db 0
 RM_MSG db "SAHARA OS , Real mode" , 0x0
 PM_MSG db "SAHARA OS , Protected mode" , 0x0
+KERNEL_MSG db "SaharaOS : Oasis kernel " , 0x0A , 0x0D , 0x0
 
 times 510 - ($-$$) db 0 
 dw 0xaa55
-
 
 
 
