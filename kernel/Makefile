@@ -10,13 +10,13 @@ all : $(EXEC)
 
 
 kernel.bin : src/kernel_entry.o ${OBJ}
-	ld -o $@ -Ttext 0x1000 $^ --oformat binary 
+	ld -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary 
 	
 %.o : %.asm
-	nasm -f elf64  $< -o $@
+	nasm -f elf32  $< -o $@
 
 %.o : %.c ${INCLUDES}  
-	gcc -ffreestanding -c $< -o $@ 
+	gcc -m32 -g -ffreestanding -c $< -o $@ 
 
 clean :
 	rm -fr *.bin $(SRC_DIR)*.o *.dis 

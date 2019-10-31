@@ -7,11 +7,15 @@ KERNEL = kernel/kernel.bin
 all : run
 
 
+debug : $(EXEC)
+	qemu-system-x86_64 -S  -gdb tcp::9000 $?
+
+
 run : $(EXEC)
-	qemu-system-x86_64 -d guest_errors $<
+	qemu-system-x86_64 -d guest_errors $?
 	
 disassemble : $(EXEC)
-	ndisasm -b 32 $< | cat
+	ndisasm -b 32 $? | cat
 
 
 $(EXEC) : assemble
@@ -24,7 +28,7 @@ $(BOOTLOADER):
 	cd bootloader/ && make
 
 $(KERNEL):
-	cd kernel/ && make
+	 cd kernel/ && make
 
 total_clean: clean
 	rm $(EXEC)

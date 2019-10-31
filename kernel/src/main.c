@@ -1,20 +1,15 @@
 
 
-
-
-
+#include "../includes/constants.h" 
+#include "../includes/video.h" 
 
 
 
 void main(){
-	
-	char* vid_mem = (char*) 0xB8000 ; 
-	*vid_mem = 'O' ; 
-	vid_mem++; 
-	*vid_mem = 0x0A ; 
-	vid_mem++; 
-
-
+	const unsigned char* welcome = "SaharaOS : Oasis kernel" ; 
+	clear_screen() ;	
+	video_write((char*) welcome  ,  0x0E);
+		
 }
 
 

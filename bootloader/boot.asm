@@ -55,34 +55,8 @@ PM_init:
 	call BEGIN_PM
 	jmp $
 
-VIDEO_ADDRESS equ 0xB8000
-BW	      equ 0x0F
-
 BEGIN_PM : 
-	mov EBX , PM_MSG
-	call print_string_pm
 	call KERNEL_OFFSET
-	ret
-
-print_string_pm:
-	pusha
-	mov EDX , VIDEO_ADDRESS
-	jmp string_loop_pm
-
-string_loop_pm:
-
-	mov AL , [EBX]
-	mov AH , BW
-	cmp AL , 0x0
-	je finish_pm
-	mov [EDX] , AX
-	add EDX , 2
-	inc EBX
-	jmp string_loop_pm
-
-
-finish_pm:
-	popa
 	ret
 
 
