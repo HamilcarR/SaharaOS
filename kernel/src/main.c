@@ -6,7 +6,7 @@
 
 
 void main(){
-	const unsigned char* welcome = "SaharaOS : Oasis kernel" ; 
+	const unsigned char* welcome = "SaharaOS : Oasis kernel , welcome shithead!" ; 
 	clear_screen() ;	
 	video_write((char*) welcome  ,  0x0E);
 		
