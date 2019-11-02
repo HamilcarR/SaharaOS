@@ -1,7 +1,19 @@
 #include "../includes/video.h" 
+#include "../includes/constants.h" 
 
-#define VIDEO_MEMORY 0xB8000 
-#define VIDEO_MEMLIM 0xB8FA0
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 void clear_screen(){
