@@ -1,7 +1,7 @@
 EXEC = SaharaOS
 
 CC = gcc 
-CFLAGS = -m32 -g -ffreestanding 
+CFLAGS = -std=c11 -m32 -g -ffreestanding -pedantic -Wall  
 
 BOOTLOADER_DIR = ./bootloader
 BOOTLOADER = $(BOOTLOADER_DIR)/bootloader.bin
@@ -61,7 +61,7 @@ $(KERNEL) : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K)
 	ld -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
 
-%.o : %.c $(DISPLAY_INC) $(KERNEL_INC)
+%.o : %.c $(KERNEL_INC) $(DRIVERS_INC)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 

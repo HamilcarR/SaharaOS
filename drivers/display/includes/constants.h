@@ -1,3 +1,6 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
 
 #define VIDEO_MEMORY 0xB8000 
 #define VIDEO_MEMLIM 0xB8FA0
@@ -8,8 +11,8 @@
 
 #define REGISTER_CTRL 0x3D4
 #define REGISTER_DATA 0x3D5 
+#define REGISTER_CURSOR_START 0x0A
+#define REGISTER_CURSOR_END 0x0B
 
 
-
-
-
+#endif
