@@ -2,13 +2,28 @@
 
 
 
+uint16_t cursorX ; 
+uint16_t cursorY ;
+
+
+void init_video(){
+	cursorX = 0 ;
+	cursorY = 0 ; 
+	enable_cursor(0 , 0 ) ; 
+
+}
+
+
+
 
 
 void clear_screen(){
 	char *c = (char*) VIDEO_MEMORY ; 
 	int i = 0 ; 
-	for(i=0 ; i < VIDEO_MEMLIM - VIDEO_MEMORY ; i++){
+	for(i=0 ; i < (VIDEO_MEMLIM - VIDEO_MEMORY)/2 ; i++){
 		*c='\0' ; 
+		c++ ; 
+		*c=0x0E ; 
 		c++ ; 
 	
 	}
@@ -18,17 +33,30 @@ void clear_screen(){
 
 void video_write(char *string , char color ){
 	char *p = (char*) string ;
-	char *c = (char*) (VIDEO_MEMORY  );
+	char *c = (char*) (VIDEO_MEMORY );
 	while(*p != '\0')
 	{
+
+		if(*p == '\n' || *p == '\r' ) {
+			cursorX++ ; 
+			cursorY = 0 ;
+			c = (char*) VIDEO_MEMORY + cursorX * 0xA0 ; // 80 chars+attr = 160 bytes
+			p++ ; 
+		}
+
+
 		*c = *p ; 
 		c++ ;
 		*c = color ; 
 		c++ ;
-		p++ ; 
+		p++ ;
+		cursorY++ ; 
 	}
 
 
+
+
+	move_cursor(cursorX , cursorY ) ; 
 }
 
 
@@ -57,9 +85,9 @@ void disable_cursor(){
 void move_cursor(uint8_t x , uint8_t y) {
 
 	uint16_t loc = COLS * x + y ; 
-	port_byte_out(REGISTER_CTRL , 0x0E) ; 
+	port_byte_out(REGISTER_CTRL , REGISTER_CURSOR_HIGH) ; 
 	port_byte_out(REGISTER_DATA , loc >> 8 ) ; 
-	port_byte_out(REGISTER_CTRL , 0x0F ) ; 
+	port_byte_out(REGISTER_CTRL , REGISTER_CURSOR_LOW ) ; 
 	port_byte_out(REGISTER_DATA , loc ) ; 
 
 }

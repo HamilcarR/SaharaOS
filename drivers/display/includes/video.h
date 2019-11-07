@@ -4,6 +4,9 @@
 #include "constants.h" 
 #include "../../../kernel/includes/IO_ports.h" 
 
+
+//initialize video text mode
+void init_video() ; 
 //write until '\0' is encountered
 void video_write(  char *string , char color);
 //clear the screen
@@ -18,7 +21,8 @@ void disable_cursor();
 uint16_t cursor_location() ; 
 //move cursor
 void move_cursor(uint8_t x , uint8_t y) ; 
-
+//scroll screen
+void scroll_screen() ; 
 
 
 

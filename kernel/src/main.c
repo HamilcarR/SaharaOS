@@ -4,13 +4,10 @@
 
 
 void main(){
-	const char* welcome = "SaharaOS : Oasis kernel , welcome shithead!" ; 
-	
+	const char* welcome = "SaharaOS : Oasis kernel\nwelcome shithead!\nblaba" ; 
+	init_video(); 
 	clear_screen() ;
-	enable_cursor(0 , 0) ; 
 	video_write(( char*) welcome  ,  0x0E);
-	move_cursor(0 , 10 ) ;
-
 }
 
 
