@@ -1,7 +1,7 @@
 EXEC = SaharaOS
 
 CC = gcc 
-CFLAGS = -std=c11 -m32 -g -ffreestanding -pedantic -Wall  
+CFLAGS = -std=c11 -m32 -O3 -g -ffreestanding -pedantic -Wall  
 
 BOOTLOADER_DIR = ./bootloader
 BOOTLOADER = $(BOOTLOADER_DIR)/bootloader.bin
@@ -10,6 +10,7 @@ BOOTLOADER = $(BOOTLOADER_DIR)/bootloader.bin
 KERNEL_ENTRY = $(BOOTLOADER_DIR)/kernel_entry/kernel_entry.o
 KERNEL_ENTRY_FILE = $(BOOTLOADER_DIR)/kernel_entry/kernel_entry.asm
 KERNEL = ./kernel.bin
+KDEBUG = ./debug-kernel
 KERNEL_DIR = ./kernel
 KERNEL_SRC_DIR = $(KERNEL_DIR)/src
 KERNEL_INC_DIR = $(KERNEL_DIR)/includes
@@ -37,10 +38,10 @@ all : run
 $(EXEC) : assemble
 
 debug : $(EXEC)
-	qemu-system-x86_64 -S -gdb tcp::9000 $<
+	qemu-system-i386 -S -gdb tcp::9000 $<
 
 run : $(EXEC) 
-	qemu-system-x86_64 -d guest_errors $<
+	qemu-system-i386 -d guest_errors $<
 
 disassemble : $(EXEC)
 	ndisasm -b 32 $? | cat
@@ -58,8 +59,10 @@ assemble : $(BOOTLOADER) $(KERNEL)
 #Kernel build and drivers
 
 $(KERNEL) : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K)   
-	ld -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
+	ld -melf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
+$(KDEBUG) : $(OBJ_D) $(OBJ_K) 
+	ld -melf_i386 -o $@  $^ 
 
 %.o : %.c $(KERNEL_INC) $(DRIVERS_INC)
 	$(CC) $(CFLAGS) -c $< -o $@
