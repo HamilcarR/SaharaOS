@@ -1,7 +1,7 @@
 EXEC = SaharaOS
 
 CC = gcc 
-CFLAGS = -std=c11 -m32 -O3 -g -ffreestanding -pedantic -Wall  
+CFLAGS = -std=c11 -m32  -g -ffreestanding -pedantic -Wall  
 
 BOOTLOADER_DIR = ./bootloader
 BOOTLOADER = $(BOOTLOADER_DIR)/bootloader.bin
@@ -37,7 +37,7 @@ all : run
 
 $(EXEC) : assemble
 
-debug : $(EXEC)
+debug : $(EXEC) $(KDEBUG)
 	qemu-system-i386 -S -gdb tcp::9000 $<
 
 run : $(EXEC) 
@@ -61,8 +61,8 @@ assemble : $(BOOTLOADER) $(KERNEL)
 $(KERNEL) : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K)   
 	ld -melf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
-$(KDEBUG) : $(OBJ_D) $(OBJ_K) 
-	ld -melf_i386 -o $@  $^ 
+$(KDEBUG) : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) 
+	ld -melf_i386 -o $@ -Ttext 0x1000 $^ 
 
 %.o : %.c $(KERNEL_INC) $(DRIVERS_INC)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -74,7 +74,7 @@ KERNEL_ENTRY : $(KERNEL_ENTRY)
 BOOTLOADER : $(BOOTLOADER)
 
 $(KERNEL_ENTRY):  
-	nasm -f elf32 $(KERNEL_ENTRY_FILE) -o $@
+	nasm -f elf32 -F dwarf -g $(KERNEL_ENTRY_FILE) -o $@
 
 $(BOOTLOADER) :
 	nasm $(BOOTLOADER_DIR)/boot.asm -i$(BOOTLOADER_DIR)/ -f bin -o $@
@@ -98,6 +98,7 @@ remove_exec :
 
 clean : 
 	rm -f $(KERNEL)
+	rm -f $(KDEBUG)
 	rm -f $(BOOTLOADER)
 	rm -f $(EXEC)
 	find . -type f -name "*.o" -delete
