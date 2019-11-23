@@ -5,7 +5,7 @@
 #define VIDEO_MEMORY 0xB8000 
 #define VIDEO_MEMLIM 0xB8FA0
 #define ROWS 25
-#define COLS 80 
+#define COLS 80  
 
 
 
@@ -15,5 +15,13 @@
 #define REGISTER_CURSOR_END 0x0B
 #define REGISTER_CURSOR_HIGH 0x0E
 #define REGISTER_CURSOR_LOW 0x0F
+
+
+
+
+
+
+#define TAB_SIZE 0x06
+
 
 #endif

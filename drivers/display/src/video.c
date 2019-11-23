@@ -2,15 +2,18 @@
 
 
 
-uint16_t cursorX ; 
-uint16_t cursorY ;
+uint8_t cursorX ; 
+uint8_t cursorY ;
+char* buffer ; 
+char* char_buffer ;
 
 
 void init_video(){
 	cursorX = 0 ;
 	cursorY = 0 ; 
 	enable_cursor(0 , 0 ) ; 
-
+	buffer = (char*) (VIDEO_MEMORY );
+	char_buffer = buffer ; 	
 }
 
 
@@ -18,49 +21,86 @@ void init_video(){
 
 
 void clear_screen(){
-	char *c = (char*) VIDEO_MEMORY ; 
+	buffer = (char*) VIDEO_MEMORY ; 
 	int i = 0 ; 
 	for(i=0 ; i < (VIDEO_MEMLIM - VIDEO_MEMORY)/2 ; i++){
-		*c='\0' ; 
-		c++ ; 
-		*c=0x0E ; 
-		c++ ; 
+		*buffer='\0' ; 
+		buffer++ ; 
+		*buffer=0x0E ; 
+		buffer++ ; 
 	
 	}
+	buffer = (char*) VIDEO_MEMORY ; 
 
 }
 
 
-void video_write(char *string , char color ){
+
+
+
+void new_line(char** string_data) {
+	cursorX++ ; 
+	cursorY = 0 ;
+	buffer = (char*) VIDEO_MEMORY + cursorX * 0xA0 ; // 80 chars+attr = 160 bytes
+	(*string_data)++ ; 			
+
+}
+
+
+
+void tabulate(char** string_data){
+
+	if((cursorY + (uint8_t) TAB_SIZE) >= COLS - 2){
+		uint8_t dist = COLS-2 - cursorY ; 
+		cursorY = COLS - 2 ; 
+		buffer += dist * 2; 
+	}
+	else{
+		cursorY += (uint8_t) TAB_SIZE ; 
+		buffer += TAB_SIZE * 2 ; 
+
+
+	}
+		
+
+	(*string_data)++ ; 
+}
+
+
+
+
+void video_write(char *string , char color , bool erase){
+	if(erase)
+		buffer = (char*) VIDEO_MEMORY;
+	
 	char *p = (char*) string ;
-	char *c = (char*) (VIDEO_MEMORY );
+
 	while(*p != '\0')
 	{
 
-		if(*p == '\n' || *p == '\r' ) {
+		if(*p == '\n' || *p == '\r' || cursorY == (uint8_t) COLS - 1  ) 
+			new_line(&p) ; 
 
-			cursorX++ ; 
-			cursorY = 0 ;
-			c = (char*) VIDEO_MEMORY + cursorX * 0xA0 ; // 80 chars+attr = 160 bytes
-			p++ ; 
+		else if(*p == '\t' ) 
+			tabulate(&p) ; 		
 
-		}
-		
 		else{
-			*c = *p ; 
-			c++ ;
-			*c = color ; 
-			c++ ;
+			*buffer = *p ; 
+			buffer++ ;
+			*buffer = color ; 
+			buffer++ ;
 			p++ ;
 			cursorY++ ;
 		}
 	}
 		
 	
-	if( c >= ((char*) VIDEO_MEMLIM))
+	if(cursorX == ROWS)
 		scroll_screen(); 
 	else
-		move_cursor(cursorX , cursorY ) ; 
+		move_cursor(cursorX , cursorY ) ;
+
+
 }
 
 
@@ -85,32 +125,65 @@ void disable_cursor(){
 }
 
 
-uint16_t cursor_location(){
-	port_byte_out(REGISTER_CTRL , REGISTER_CURSOR_HIGH) ; 
-	uint8_t high = port_byte_in(REGISTER_DATA ) ; 
-	port_byte_out(REGISTER_CTRL , REGISTER_CURSOR_LOW) ; 
-	uint8_t low = port_byte_in(REGISTER_DATA) ; 
-
-	return (high << 8) | low ; 
+/****************************************************************************/
+CUR_LOCATION cursor_location(){
+	 CUR_LOCATION C ; 
+	 C.cursorX = cursorX ; 
+	 C.cursorY = cursorY ; 
+	 return C ; 
+	 
 }
 
 
+/****************************************************************************/
 void move_cursor(uint8_t x , uint8_t y) {
 
 	uint16_t loc = COLS * x + y ; 
 	port_byte_out(REGISTER_CTRL , REGISTER_CURSOR_HIGH) ; 
 	port_byte_out(REGISTER_DATA , loc >> 8 ) ; 
 	port_byte_out(REGISTER_CTRL , REGISTER_CURSOR_LOW ) ; 
-	port_byte_out(REGISTER_DATA , loc ) ; 
+	port_byte_out(REGISTER_DATA , loc & 0x00FF ) ; 
 
 }
 
+
+
+
+
+
+/****************************************************************************/
 
 void scroll_screen(){
 
-	clear_screen() ; 
+	clear_screen() ;
+	
 	move_cursor(0 , 0) ; 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

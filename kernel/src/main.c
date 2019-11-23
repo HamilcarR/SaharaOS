@@ -1,15 +1,16 @@
 
 
 #include "../../drivers/display/includes/video.h" 
-
+#include "../includes/mem_debug.h" 
 
 void _start(){
-	const char* welcome = "SaharaOS : Oasis kernel welcome shithead!" ; 
+	const char* welcome = "Sahara OS : \t \t \t \t Welcome ! :) " ; 
 	init_video(); 
 	clear_screen() ;
-	video_write(( char*) welcome  ,  0x0E);
-	uint16_t loc = cursor_location() ;
+	video_write((char*) welcome , 0x0E , false) ;  
+	display_memory((char*) 0x01000 , 8 , 20 ,0x0A , false); 	
 	
+
 	while(1) ; 
 }
 
