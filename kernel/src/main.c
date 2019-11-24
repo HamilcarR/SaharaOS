@@ -8,7 +8,7 @@ void _start(){
 	init_video(); 
 	clear_screen() ;
 	video_write((char*) welcome , 0x0E , false) ;  
-	display_memory((char*) 0x01000 , 8 , 20 ,0x0A , false); 	
+	display_memory((char*) 0x00001 , 8 , 20 ,0x0A , false); 	
 	
 
 	while(1) ; 
