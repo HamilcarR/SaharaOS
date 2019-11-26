@@ -6,6 +6,12 @@
 
 
 
+
+
+
+
+
+
  void read_hex (unsigned char* location , uint8_t bit_size , char* ret_value){
 	
 	const unsigned char BASE16[16] = "0123456789ABCDEF" ; 
