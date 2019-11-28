@@ -9,6 +9,7 @@
 
 
 
+/*****************************************************************************************/
 void display_memory (char * address_start , uint8_t padding , uint32_t size ,uint8_t color ,bool erase) {
 	if(erase)
 		video_write("\0" , 0x0 , true); 
@@ -19,7 +20,9 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 	char temp[2] ={'F'} ; 
 		uint32_t i = 0 ; 
 		for (i = 0  ; i < size ; i++){
-			uint32_t j = 0 ; 
+			uint32_t j = 0 ;
+
+			video_write("  " , 0x00 , false) ; 
 			for(j = 0 ; j < padding ; j++){
 				unsigned char* add_temp =(unsigned char*) start ; 
 				read_hex((unsigned char*)start , 8 , temp) ; 

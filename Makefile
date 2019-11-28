@@ -1,7 +1,7 @@
 EXEC = SaharaOS
 
 CC = gcc 
-CFLAGS =-v -fno-PIC -fno-stack-protector -std=c11 -m32 -g -ffreestanding -pedantic -Wall  
+CFLAGS = -fno-PIC -fno-stack-protector -std=c11 -m32 -g -ffreestanding -pedantic -Wall  
 
 BOOTLOADER_DIR = ./bootloader
 BOOTLOADER = $(BOOTLOADER_DIR)/bootloader.bin
