@@ -2,8 +2,8 @@
 
 
 
-uint8_t cursorX ; //cursor row position number
-uint8_t cursorY ; //cursor column position number
+static uint8_t cursorX ; //cursor row position number
+static uint8_t cursorY ; //cursor column position number
 unsigned char* buffer ; 
 unsigned char* char_buffer ;
 

@@ -20,7 +20,7 @@ DRIVERS_DIR = ./drivers
 DRIVERS_OBJ_DIR = $(DRIVERS_DIR)/obj
 
 
-BOOTLOADER_SRC = $(wildcard $(BOOTLOADER_DIR)/*.asm)
+BOOTLOADER_SRC = $(wildcard $(BOOTLOADER_DIR)/assembly/*.asm)
 KERNEL_OBJ = $(wildcard $(KERNEL_OBJ)/*.o)
 KERNEL_SRC = $(wildcard $(KERNEL_SRC_DIR)/*.c)
 KERNEL_INC = $(wildcard $(KERNEL_INC_DIR)/*.h)
@@ -77,12 +77,11 @@ $(KERNEL_ENTRY):
 	nasm -f elf32 -F dwarf -g $(KERNEL_ENTRY_FILE) -o $@
 
 $(BOOTLOADER) :
-	nasm $(BOOTLOADER_DIR)/boot.asm -i$(BOOTLOADER_DIR)/ -f bin -o $@
+	nasm $(BOOTLOADER_DIR)/assembly/boot.asm -i $(BOOTLOADER_DIR)/assembly -f bin -o $@
 
 
 
 
-#Clean the shit
 remove_obj : 
 	find . -type f -name "*.o" -delete
 

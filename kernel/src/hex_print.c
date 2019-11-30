@@ -3,7 +3,7 @@
 
 
 
-const unsigned char BASE16[16] = "0123456789ABCDEF" ; 
+static const unsigned char BASE16[16] = "0123456789ABCDEF" ; 
 
 /*****************************************************************************************/
 static void int_to_hex8(uint8_t number , unsigned char* tab){
