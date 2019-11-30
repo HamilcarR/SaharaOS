@@ -23,7 +23,7 @@ typedef struct HEX_LAYOUT HEX_LAYOUT ;
  * bit_size = size of data to be read : 8 , 16 , 32 bits
  * ret_value = value returned : must be of size 2 , 4 , 8 
  */
-void  read_hex (unsigned char* location , uint8_t bit_size , char* ret_value) ;
+void  read_hex (unsigned char* location , unsigned char bit_size , char* ret_value) ;
 
 /*turns "number" into hex value , depending on HEX_LAYOUT parameter "size" 
 *returning back 8,16 or 32 bits hexadecimal representation of "number"
