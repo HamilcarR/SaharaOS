@@ -7,8 +7,8 @@ static const unsigned char BASE16[16] = "0123456789ABCDEF" ;
 
 /*****************************************************************************************/
 static void int_to_hex8(uint8_t number , unsigned char* tab){
-	tab[0] = BASE16[(number >> 4)] ; //high
-	tab[1] = BASE16[(number & 0x0F)] ; 
+	tab[0] = BASE16[(number >> 4)] ; //high 4-bits
+	tab[1] = BASE16[(number & 0x0F)] ; //lower 4-bits
 
 }
 /*****************************************************************************************/
@@ -39,7 +39,7 @@ static void int_to_hex32(uint32_t number , unsigned char* tab){
 	}
 }
 /*****************************************************************************************/
-void format_hex(HEX_LAYOUT* hex_layout){ /* we use that function to get the "0x" notation */
+static void format_hex(HEX_LAYOUT* hex_layout){ /* we use that function to get the "0x" notation */
 	uint8_t i ;
 	hex_layout->formated_string[0] = '0';		 
 	hex_layout->formated_string[1] = 'x'; 
@@ -60,14 +60,14 @@ void format_hex(HEX_LAYOUT* hex_layout){ /* we use that function to get the "0x"
 
 /*****************************************************************************************/
 void to_hex(void *number , HEX_LAYOUT* ret_value){
-	if(ret_value->size == 2){
+	if(ret_value->size == 2){        //returns 8 bits representation
 		uint8_t ret_array[2] ; 
 		int_to_hex8( *(uint8_t*)number , ret_array) ;
 		ret_value->value[0] = ret_array[0] ; 
 		ret_value->value[1] = ret_array[1] ; 
 		
 	}
-	if(ret_value->size == 4){
+	if(ret_value->size == 4){ // 16 bits representation
 		uint8_t ret_array[4] ; 
 		int_to_hex16( *(uint16_t*)number , ret_array) ; 
 		ret_value->value[0] = ret_array[0] ; 
@@ -77,7 +77,7 @@ void to_hex(void *number , HEX_LAYOUT* ret_value){
 		
 	}
 
-	if(ret_value->size == 8){
+	if(ret_value->size == 8){// 32 bits representation 
 		uint8_t ret_array[8] ; 
 		int_to_hex32( *(uint32_t*)number , ret_array) ;
 		uint8_t i ; 
@@ -102,6 +102,17 @@ void to_hex(void *number , HEX_LAYOUT* ret_value){
 		ret_value[1] = low ; 
 	}	
 }
+
+/*****************************************************************************************/
+HEX_LAYOUT* init_hex_layout(uint8_t size) {
+	//TODO : dynamic memory management
+
+	return 0 ; 
+
+}
+
+
+
 
 
 

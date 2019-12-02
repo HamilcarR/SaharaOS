@@ -4,7 +4,7 @@
 
 static uint8_t cursorX ; //cursor row position number
 static uint8_t cursorY ; //cursor column position number
-unsigned char* buffer ; 
+unsigned char* buffer ; //variable following the vga buffer location 
 unsigned char* char_buffer ;
 
 
@@ -19,7 +19,7 @@ void init_video(){
 
 
 /*****************************************************************************************/
-void clear_screen(){
+void clear_screen(){ //clears everything  
 	buffer = (unsigned char*) VIDEO_MEMORY ; 
 	int i = 0 ; 
 	for(i=0 ; i < (VIDEO_MEMLIM - VIDEO_MEMORY)/2 ; i++){
@@ -29,6 +29,8 @@ void clear_screen(){
 		buffer++ ; 
 	
 	}
+	cursorX = 0 ; 
+	cursorY = 0 ; 
 	buffer = (unsigned char*) VIDEO_MEMORY ; 
 
 }
@@ -36,7 +38,7 @@ void clear_screen(){
 void new_line(char** string_data) {
 	cursorX++ ; 
 	cursorY = 0 ;
-	buffer = (unsigned char*) VIDEO_MEMORY + cursorX * 0xA0 ; // 80 chars+attr = 160 bytes
+	buffer = (unsigned char*) VIDEO_MEMORY + cursorX * 0xA0 ; // width is 80 chars+attr = 160 bytes
 	(*string_data)++ ; 			
 
 }

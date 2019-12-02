@@ -5,17 +5,18 @@
 /*****************************************************************************************/
 /*                This reads memory at location "address_start"
  *                it produces the hexadecimal code in A and the ascii in B
+ *		
+ *			padding
+ *		----------------------
+ *  	  |	53 61 68 FF FF FF FF FF     S a h . . . . .      
+ * size * |	FF FF FF FF FF FF FF FF     . . . . . . . .
+ * padding|	FF FF FF FF FF FF FF FF     . . . . . . . . 
  *
- *
- *53 61 68 FF FF FF FF FF     S a h . . . . .      
- *FF FF FF FF FF FF FF FF     . . . . . . . .
- *FF FF FF FF FF FF FF FF     . . . . . . . . 
- *
- *	A			B
+ *			A			    B
  *
  * "padding" is the number of elements on one line
  * "size" represents total memory read
- *  "erase" erase the screen (bugged)  
+ *  "erase" erase the screen (bug fix)  
  */
 
 /*****************************************************************************************/
@@ -33,6 +34,7 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 		for (i = 0  ; i < size ; i++){
 			uint32_t j = 0 ;
 			video_write("  " , 0x00 , false) ; 
+			
 			/*this writes hexadecimal values of memory ,similar to the "A" section  in the previous comment */
 			for(j = 0 ; j < padding ; j++){  
 				unsigned char* add_temp =(unsigned char*) start ; 
@@ -44,9 +46,11 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 				start ++ ; 
 			}
 			video_write("     " , 0x00 , false) ;
+			
 			/*this writes the ascii values of the memory , similar to "B"
-			 * any values not representing a readable character ie , <= 0x7E or >= 0x21 are represented
-			 * by a '.' */
+			 * any values not representing a readable character (alpha numeric char)  ie ,
+			 * <= 0x7E or >= 0x21 are represented by a '.' */
+
 			for(j = 0 ; j < padding ; j++){
 				char ascii_temp[2] = {'\0'} ;  
 				if((ascii_buffer[j] <= (unsigned char) 0x7E) && (ascii_buffer[j] >= (unsigned char) 0x21))

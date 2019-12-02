@@ -19,6 +19,8 @@ typedef struct HEX_LAYOUT HEX_LAYOUT ;
 
 
 
+HEX_LAYOUT* init_hex_layout(uint8_t size) ; 
+
 /* location = pointer location to be read
  * bit_size = size of data to be read : 8 , 16 , 32 bits
  * ret_value = value returned : must be of size 2 , 4 , 8 
@@ -34,7 +36,6 @@ void to_hex(void *number , HEX_LAYOUT* hex_returned);
 
 
 
-void format_hex(HEX_LAYOUT* hex_layout) ; 
 
 
 
