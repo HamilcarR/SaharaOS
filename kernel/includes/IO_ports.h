@@ -12,8 +12,8 @@ void port_byte_out(uint16_t port , uint8_t data);
 uint16_t port_word_in(uint16_t port) ; 
 //write 16 bits to port
 void port_word_out(uint16_t port , uint16_t data ) ; 
-
-
+//wait one cycle of I/O transfer 
+void io_wait(); 
 
 
 

@@ -19,10 +19,10 @@ static void int_to_hex16(uint16_t number , unsigned char* tab){
 	uint8_t low = number & 0x00FF ; 		// 	         high      low
 	int_to_hex8(high , temp_high) ; 		//high = number	>> 8 : 00000000  01011010 
 	int_to_hex8(low , temp_low) ; 			//low = number & 0x00FF : 00000000 01001010
-	tab[0] = temp_low[0] ;  
-	tab[1] = temp_low[1] ; 
-	tab[2] = temp_high[0] ; 
-	tab[3] = temp_high[1] ; 
+	tab[0] = temp_high[0] ;  
+	tab[1] = temp_high[1] ; 
+	tab[2] = temp_low[0] ; 
+	tab[3] = temp_low[1] ; 
 }
 /*****************************************************************************************/
 static void int_to_hex32(uint32_t number , unsigned char* tab){
@@ -34,8 +34,8 @@ static void int_to_hex32(uint32_t number , unsigned char* tab){
 	int_to_hex16(low , temp_low) ; 
 	uint8_t i = 0 ; 
 	for(i = 0 ; i < 4 ; i++){
-		tab[i] = temp_low[i] ; 
-		tab[i+4] = temp_high[i] ; 
+		tab[i] = temp_high[i] ; 
+		tab[i+4] = temp_low[i] ; 
 	}
 }
 /*****************************************************************************************/
@@ -43,11 +43,12 @@ static void format_hex(HEX_LAYOUT* hex_layout){ /* we use that function to get t
 	uint8_t i ;
 	hex_layout->formated_string[0] = '0';		 
 	hex_layout->formated_string[1] = 'x'; 
-
-	for(i = 0 ; i < hex_layout->size ; i++){
-		hex_layout->formated_string[i+2] = hex_layout->value[i] ; 
-
+	int j = 0 ; 
+	for(i = 2 ; i < hex_layout->size + 2 ; i++){
+		hex_layout->formated_string[i] = hex_layout->value[i-2] ; 
+		j = i ; 
 	}
+	hex_layout->formated_string[j+1] = '\0' ; 
 
 }
 
@@ -59,17 +60,17 @@ static void format_hex(HEX_LAYOUT* hex_layout){ /* we use that function to get t
 
 
 /*****************************************************************************************/
-void to_hex(void *number , HEX_LAYOUT* ret_value){
+void to_hex(uint32_t number , HEX_LAYOUT* ret_value){
 	if(ret_value->size == 2){        //returns 8 bits representation
 		uint8_t ret_array[2] ; 
-		int_to_hex8( *(uint8_t*)number , ret_array) ;
+		int_to_hex8( (uint8_t)number , ret_array) ;
 		ret_value->value[0] = ret_array[0] ; 
 		ret_value->value[1] = ret_array[1] ; 
 		
 	}
 	if(ret_value->size == 4){ // 16 bits representation
 		uint8_t ret_array[4] ; 
-		int_to_hex16( *(uint16_t*)number , ret_array) ; 
+		int_to_hex16( (uint16_t)number , ret_array) ; 
 		ret_value->value[0] = ret_array[0] ; 
 		ret_value->value[1] = ret_array[1] ; 
 		ret_value->value[2] = ret_array[2] ; 
@@ -79,7 +80,7 @@ void to_hex(void *number , HEX_LAYOUT* ret_value){
 
 	if(ret_value->size == 8){// 32 bits representation 
 		uint8_t ret_array[8] ; 
-		int_to_hex32( *(uint32_t*)number , ret_array) ;
+		int_to_hex32( (uint32_t)number , ret_array) ;
 		uint8_t i ; 
 		for (i = 0 ; i < ret_value->size ; i++)
 			ret_value->value[i] = ret_array[i] ; 

@@ -6,6 +6,13 @@
 
 
 
+
+enum BITSIZE { BIT_8 = 2 , BIT_16 = 4 , BIT_32 = 8 } ; 
+
+
+
+
+
  struct HEX_LAYOUT {
 	uint8_t value[16] ; 
 	uint8_t formated_string[18] ;
@@ -31,7 +38,7 @@ void  read_hex (unsigned char* location , unsigned char bit_size , char* ret_val
 *returning back 8,16 or 32 bits hexadecimal representation of "number"
 *in "hex_returned"
 */
-void to_hex(void *number , HEX_LAYOUT* hex_returned); 
+void to_hex(uint32_t number , HEX_LAYOUT* hex_returned); 
 
 
 

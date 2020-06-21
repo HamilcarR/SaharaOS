@@ -82,7 +82,6 @@ void video_write(char *string , char color , bool erase){
 		move_cursor(cursorX , cursorY ) ;
 }
 
-
 /*****************************************************************************************/
 void video_write_to(char* string , char color , uint16_t row , uint16_t col) {
 	unsigned char *location =(unsigned char*)(VIDEO_MEMORY) + 2 * (COLS * row + col)   ; 
