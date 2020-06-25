@@ -2,6 +2,9 @@
 #include "../../drivers/display/includes/video.h"
 
 
+
+
+
 /*****************************************************************************************/
 /*                This reads memory at location "address_start"
  *                it produces the hexadecimal code in A and the ascii in B
@@ -71,5 +74,13 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 
 
 
+/*****************************************************************************************/
+
+void display_byte(char byte , uint8_t color , bool erase ){
+	HEX_LAYOUT layout ; 
+	layout.size = BIT_8 ; 
+	to_hex((uint32_t) byte , &layout) ; 
+	video_write((char*) layout.formated_string ,0x0E , false) ; 
+}
 
 

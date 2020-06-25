@@ -9,7 +9,9 @@ endif
 set shortmess=aoO
 badd +1 drivers/display/src/video.c
 badd +1 drivers/display/includes/video.h
-badd +0 drivers/display/includes/constants.h
+badd +1 drivers/display/includes/constants.h
+badd +0 drivers/keyboard/src/keyboard.c
+badd +0 drivers/keyboard/includes/keyboard.h
 argglobal
 %argdel
 $argadd drivers/display/src/video.c
@@ -27,8 +29,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -39,7 +41,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 33) / 66)
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -57,15 +59,67 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 33) / 66)
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+tabedit drivers/keyboard/includes/keyboard.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists("drivers/keyboard/src/keyboard.c") | buffer drivers/keyboard/src/keyboard.c | else | edit drivers/keyboard/src/keyboard.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 tabedit drivers/display/includes/constants.h
 set splitbelow splitright
 set nosplitbelow
@@ -85,7 +139,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt

@@ -35,7 +35,7 @@ void clear_screen(){ //clears everything
 
 }
 /*****************************************************************************************/
-void new_line(char** string_data) {
+void new_line(const char** string_data) {
 	cursorX++ ; 
 	cursorY = 0 ;
 	buffer = (unsigned char*) VIDEO_MEMORY + cursorX * 0xA0 ; // width is 80 chars+attr = 160 bytes
@@ -43,7 +43,7 @@ void new_line(char** string_data) {
 
 }
 /*****************************************************************************************/
-void tabulate(char** string_data){
+void tabulate(const char** string_data){
 	if((cursorY + (uint8_t) TAB_SIZE) >= COLS - 2){
 		uint8_t dist = COLS-2 - cursorY ; 
 		cursorY = COLS - 2 ; 
@@ -57,23 +57,48 @@ void tabulate(char** string_data){
 }
 
 /*****************************************************************************************/
-void video_write(char *string , char color , bool erase){
+void backspace(const char** string_data){
+	if( cursorY == 0x00 ){
+		cursorY = COLS - 1  ; 
+		cursorX -- ;
+		buffer = (unsigned char*) VIDEO_MEMORY + cursorX * 0xA0 + cursorY * 2  ; 
+	}
+	else if( cursorY == 0x00 && cursorX == 0x00){
+		scroll_screen() ; //TODO replace with real screen scroll   
+	}
+	else{
+		cursorY -- ; 
+		buffer -= 2; 
+	}
+	(*string_data)++; 
+}
+
+
+
+/*****************************************************************************************/
+void video_write(const char *string , uint8_t color , bool erase){
 	if(erase)
 		buffer = (unsigned char*) VIDEO_MEMORY;
-	char *p = (char*) string ;
+	const char *p = string ;
 	while(*p != '\0')
 	{
-		if(*p == '\n' || *p == '\r' || cursorY == (uint8_t) COLS - 1  ) 
-			new_line(&p) ; 
+		if(*p == '\n' || *p == '\r' ) 
+			new_line((const char**) &p) ; 
 		else if(*p == '\t' ) 
-			tabulate(&p) ; 		
+			tabulate((const char**) &p) ; 
+		else if(*p == '\b')
+		        backspace((const char**) &p) ; 	
 		else{
-			*buffer = *p ; 
-			buffer++ ;
-			*buffer = color ; 
-			buffer++ ;
-			p++ ;
-			cursorY++ ;
+			if( cursorY == (uint8_t) COLS - 1 ) 
+				new_line((const char**) &p) ;
+			else{
+				*buffer = *p ; 
+				buffer++ ;
+				*buffer = color ; 
+				buffer++ ;
+				p++ ;
+				cursorY++ ;
+			}
 		}
 	}	
 	if(cursorX == ROWS)
@@ -83,7 +108,7 @@ void video_write(char *string , char color , bool erase){
 }
 
 /*****************************************************************************************/
-void video_write_to(char* string , char color , uint16_t row , uint16_t col) {
+void video_write_to(const char* string , uint8_t color , uint16_t row , uint16_t col) {
 	unsigned char *location =(unsigned char*)(VIDEO_MEMORY) + 2 * (COLS * row + col)   ; 
 		buffer = location ;
 		cursorX = row ; 
@@ -141,10 +166,14 @@ void scroll_screen(){
 
 }
 
+/****************************************************************************/
 
+void putchar(char c , uint8_t color) {
 
+	char temp[2] = { c , '\0' } ; 
+	video_write(temp , color , false); 
 
-
+}
 
 
 

@@ -25,7 +25,7 @@ load_kernel :
 	mov SI , KERNEL_MSG
 	call print_string
 	mov BX , KERNEL_OFFSET
-	mov DH , 15 
+	mov DH , 20 
 	mov DL , [BOOT_DRIVE]
 	call disk_load
 	ret
@@ -49,7 +49,7 @@ PM_init:
 	mov FS , AX
 	mov GS , AX
 
-	mov EBP , 0x90000
+	mov EBP , 0x105000
 	mov ESP , EBP
 	
 	call BEGIN_PM

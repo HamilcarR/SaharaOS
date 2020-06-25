@@ -1,4 +1,4 @@
-
+#include "../includes/string.h"
 #include "../includes/memory.h" 
 #include "../../drivers/display/includes/video.h" 
 #include "../includes/mem_debug.h" 
@@ -8,12 +8,16 @@
 void _start(){
 
 
-	const char* welcome = "Sahara OS : \t \t \t \t Welcome ! :) " ; 
+
+	const char* welcome = "So... what does B.B stand for anyway... ?\n Backstabbing bastard ?" ; 
 	init_video(); 
 	clear_screen() ;
-	video_write((char*) welcome , 0x0E , false) ;  
+	video_write( welcome , 0x0E , false) ;  
+	strcpy((char*) 0xB8070 , welcome) ; 
 	display_memory((void*) 0xB8000 , 8 , 16 , 0x0A , false) ; 
+
 	init_idt();
+
 	while(1) ; 
 }
 

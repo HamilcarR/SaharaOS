@@ -1,6 +1,12 @@
 %ifndef GDT_ASM
 %define GDT_ASM
 
+
+global KERNEL_CODE_SEG_OFFSET
+KERNEL_CODE_SEG_OFFSET : 
+	db gdt_code - gdt_start
+
+
 gdt_start:
 gdt_null : 
 	dd 0x0

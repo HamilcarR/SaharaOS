@@ -46,10 +46,17 @@ typedef struct IDT_ENTRY {
 	uint8_t zero ; 	       
 	uint8_t type_attr ;   
 	uint16_t offset_high ; 
-}IDT_ENTRY;
+}__attribute__((packed)) IDT_ENTRY;
 
 
 
+
+typedef struct IDT_PTR{
+	uint16_t limit ; 
+	uint32_t base ; 
+
+
+}__attribute__((packed)) IDT_PTR ; 
 
 void init_idt() ; 
 

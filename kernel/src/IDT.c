@@ -1,4 +1,6 @@
 #include "../includes/IDT.h"
+#include "../../drivers/keyboard/includes/keyboard.h" 
+#include "../includes/mem_debug.h" 
 
 #define PICM 		0x20 /* master PIC*/
 #define PICS 		0xA0 /* slave PIC*/
@@ -19,32 +21,36 @@
 #define ICW4_SFNM	0x10 //special fully nested 
 
 
-#define KERNEL_SEG_OFFSET 	0x08
-
-
+const uint16_t KERNEL_CODE_SEG_OFFSET = 0x08 ; //see GDT in bootloader
 
 
 static IDT_ENTRY idt[256] ; 
 
 
-
 extern int32_t load_idt(); 
-extern int32_t irq0();
-extern int32_t irq1(); 
-extern int32_t irq2(); 
-extern int32_t irq3(); 
-extern int32_t irq4(); 
-extern int32_t irq5(); 
-extern int32_t irq6(); 
-extern int32_t irq7(); 
-extern int32_t irq8(); 
-extern int32_t irq9(); 
-extern int32_t irq10(); 
-extern int32_t irq11(); 
-extern int32_t irq12(); 
-extern int32_t irq13(); 
-extern int32_t irq14(); 
-extern int32_t irq15(); 
+/* Master PIC
+ * EOI only requires writing at PICM_COMMAND
+ */
+extern int32_t irq0(); //system clock
+extern int32_t irq1(); //keyboard
+extern int32_t irq2(); //N/A
+extern int32_t irq3(); //serial port COM2/COM4
+extern int32_t irq4(); //seria port COM1/COM3
+extern int32_t irq5(); //LPT2 (sound card)
+extern int32_t irq6(); //floppy
+extern int32_t irq7(); //LPT1 
+
+/* Slave PIC 
+ * EOI requires writing at PICM_COMMAND and PICS_COMMAND
+ */
+extern int32_t irq8(); //real time clock
+extern int32_t irq9(); //N/A
+extern int32_t irq10();//N/A
+extern int32_t irq11(); //N/A 
+extern int32_t irq12(); // PS/2 controller
+extern int32_t irq13(); //FPU
+extern int32_t irq14(); //HDD 1 IDE
+extern int32_t irq15(); //HDD 2 IDE
 
 
 
@@ -81,7 +87,7 @@ static void set_gate(uint8_t val , int32_t (irq_addr)(void) ){
 	
 	uint32_t irq_ptr = (uint32_t) irq_addr ; 
 	idt[val].offset_low = irq_ptr & 0x0000FFFF ; 
-	idt[val].selector = KERNEL_SEG_OFFSET ; 
+	idt[val].selector = KERNEL_CODE_SEG_OFFSET ; 
 	idt[val].zero = 0x00 ; 
 	idt[val].type_attr = 0x8E ; // 32 bit interrupt gate 
 	idt[val].offset_high = (irq_ptr & 0xFFFF0000) >> 16 ; 
@@ -91,7 +97,6 @@ static void set_gate(uint8_t val , int32_t (irq_addr)(void) ){
 
 void init_idt() {	
 	uint32_t idt_address ; 
-	uint32_t idt_ptr[2]; 	
 	
 	init_PIC() ; 
 	
@@ -111,60 +116,102 @@ void init_idt() {
 	set_gate(45 , irq13); 
 	set_gate(46 , irq14); 	
 	set_gate(47 , irq15); 
-
-	idt_address = (uint32_t) idt ; 	
-	idt_ptr[0] = (sizeof(IDT_ENTRY) * 256) + ((idt_address & 0xffff) << 16) ;  
-	idt_ptr[1] = idt_address >> 16 ; 
-
-	load_idt(idt_ptr) ; 
+	
+	IDT_PTR ptr ; 
+	ptr.limit = sizeof(IDT_ENTRY) * 256 - 1   ; 
+	ptr.base = (uint32_t) &idt ; 
+	
+	load_idt(&ptr) ; 
 }
 
 void irq0_handler(void) {
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
 void irq1_handler(void) {
+
+        char c = keyboard_handler();
+	putchar(c) ; 
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
 void irq2_handler(void) {
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
 void irq3_handler(void) {
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
 void irq4_handler(void) {
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
 void irq5_handler(void) {
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
- 
+
 void irq6_handler(void) {
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
 void irq7_handler(void) {
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
 void irq8_handler(void) {
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+	port_byte_out(PICS_COMMAND , PIC_EOI) ; 
 }
  
 void irq9_handler(void) {
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+	port_byte_out(PICS_COMMAND , PIC_EOI) ; 
+
 }
  
 void irq10_handler(void) {
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+	port_byte_out(PICS_COMMAND , PIC_EOI) ; 
+
 }
  
 void irq11_handler(void) {
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+	port_byte_out(PICS_COMMAND , PIC_EOI) ; 
+
 }
  
 void irq12_handler(void) {
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+	port_byte_out(PICS_COMMAND , PIC_EOI) ; 
+
 }
  
 void irq13_handler(void) {
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+	port_byte_out(PICS_COMMAND , PIC_EOI) ; 
+
 }
  
 void irq14_handler(void) {
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+	port_byte_out(PICS_COMMAND , PIC_EOI) ; 
+
 }
  
 void irq15_handler(void) {
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+	port_byte_out(PICS_COMMAND , PIC_EOI) ; 
+
 }
 
 

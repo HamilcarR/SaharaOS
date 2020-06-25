@@ -1,7 +1,7 @@
 EXEC = SaharaOS
 
 CC = gcc 
-CFLAGS = -fno-PIC -fno-stack-protector -std=c11 -m32 -g -ffreestanding -pedantic -Wall  
+CFLAGS = -fno-PIC -mno-red-zone -fno-stack-protector -std=c11 -m32 -g -ffreestanding -pedantic -Wall  
 
 BOOTLOADER_DIR = ./bootloader
 BOOTLOADER = $(BOOTLOADER_DIR)/bootloader.bin
@@ -43,14 +43,17 @@ debug : $(EXEC) $(KDEBUG)
 run : $(EXEC) 
 	qemu-system-i386 -d guest_errors $<
 
-disassemble : $(EXEC)
+disassemble : $(KERNEL)
 	ndisasm -b 32 $? | cat
 
 
 
 assemble : $(BOOTLOADER) $(KERNEL) 
 	cat $^ > $(EXEC) 
-	qemu-img resize $(EXEC) +20K
+	qemu-img resize $(EXEC) +100K
+
+OBJDUMP : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) $(OBJ_ASM_K) 
+	ld -melf_i386 -o $@ -Ttext 0x1000 $^ 
 
 
 
@@ -100,6 +103,7 @@ clean :
 	rm -f $(KDEBUG)
 	rm -f $(BOOTLOADER)
 	rm -f $(EXEC)
+	rm -f OBJDUMP
 	find . -type f -name "*.o" -delete
 
 	
