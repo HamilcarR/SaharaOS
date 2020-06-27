@@ -1,5 +1,6 @@
 #include "../includes/IDT.h"
 #include "../../drivers/keyboard/includes/keyboard.h" 
+#include "../../drivers/display/includes/video.h" 
 #include "../includes/mem_debug.h" 
 
 #define PICM 		0x20 /* master PIC*/
@@ -96,7 +97,6 @@ static void set_gate(uint8_t val , int32_t (irq_addr)(void) ){
 }
 
 void init_idt() {	
-	uint32_t idt_address ; 
 	
 	init_PIC() ; 
 	

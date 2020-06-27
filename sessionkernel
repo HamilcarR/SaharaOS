@@ -7,17 +7,21 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +0 kernel/src/main.c
-badd +0 kernel/src/IDT.c
-badd +0 kernel/includes/IDT.h
-badd +0 kernel/src/mem_debug.c
-badd +0 kernel/includes/mem_debug.h
-badd +0 kernel/src/IO_ports.c
-badd +0 kernel/includes/IO_ports.h
-badd +0 kernel/src/hex_print.c
-badd +0 kernel/includes/hex_print.h
-badd +0 kernel/src/memory.c
-badd +0 kernel/includes/memory.h
+badd +1 kernel/src/main.c
+badd +1 kernel/src/IDT.c
+badd +1 kernel/includes/IDT.h
+badd +1 kernel/src/mem_debug.c
+badd +1 kernel/includes/mem_debug.h
+badd +1 kernel/src/IO_ports.c
+badd +1 kernel/includes/IO_ports.h
+badd +1 kernel/src/hex_print.c
+badd +1 kernel/includes/hex_print.h
+badd +1 kernel/src/memory.c
+badd +1 kernel/includes/memory.h
+badd +28 bootloader/assembly/boot.asm
+badd +6 bootloader/kernel_entry/kernel_entry.asm
+badd +0 kernel/includes/string.h
+badd +0 kernel/src/string.c
 argglobal
 %argdel
 $argadd kernel/src/main.c
@@ -41,11 +45,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 33) / 66)
+let s:l = 20 - ((19 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+20
 normal! 0
 tabedit kernel/includes/IDT.h
 set splitbelow splitright
@@ -60,8 +64,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -72,11 +76,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 29 - ((28 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+29
 normal! 0
 wincmd w
 argglobal
@@ -90,15 +94,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 3 - ((2 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+3
+normal! 046|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 tabedit kernel/includes/mem_debug.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -112,8 +116,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -124,11 +128,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 15 - ((14 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+15
 normal! 0
 wincmd w
 argglobal
@@ -142,15 +146,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 32 - ((8 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+32
+normal! 039|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 tabedit kernel/includes/IO_ports.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -164,8 +168,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -176,11 +180,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 5 - ((4 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+5
 normal! 0
 wincmd w
 argglobal
@@ -194,15 +198,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 tabedit kernel/includes/hex_print.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -216,8 +220,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -228,7 +232,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -246,15 +250,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 tabedit kernel/includes/memory.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -268,8 +272,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -280,7 +284,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -298,16 +302,69 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 32) / 65)
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 138 + 138) / 276)
-exe 'vert 2resize ' . ((&columns * 137 + 138) / 276)
-tabnext 6
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+tabedit kernel/includes/string.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 120 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 121 + 121) / 242)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists("kernel/src/string.c") | buffer kernel/src/string.c | else | edit kernel/src/string.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 120 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 121 + 121) / 242)
+tabnext 7
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

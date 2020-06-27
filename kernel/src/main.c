@@ -5,17 +5,22 @@
 #include "../includes/IDT.h"
 
 
+
+
+extern void* _KERNEL_END ; 
+
+
+
 void _start(){
 
-
-
-	const char* welcome = "So... what does B.B stand for anyway... ?\n Backstabbing bastard ?" ; 
+	const char* welcome = "So... what does B.B stand for anyway... ?\n Backstabbing bastard ?\n" ; 
 	init_video(); 
 	clear_screen() ;
-	video_write( welcome , 0x0E , false) ;  
-	strcpy((char*) 0xB8070 , welcome) ; 
-	display_memory((void*) 0xB8000 , 8 , 16 , 0x0A , false) ; 
+	video_write( welcome , 0x0E , false) ; 
+	void* address = &_KERNEL_END ; 
 
+
+	
 	init_idt();
 
 	while(1) ; 

@@ -6,11 +6,12 @@ static uint8_t cursorX ; //cursor row position number
 static uint8_t cursorY ; //cursor column position number
 unsigned char* buffer ; //variable following the vga buffer location 
 unsigned char* char_buffer ;
-
+static uint8_t current_color = 0x0E; 
 
 /*****************************************************************************************/
 void init_video(){
 	cursorX = 0 ;
+	current_color = 0x0E ; 
 	cursorY = 0 ; 
 	enable_cursor(0 , 0 ) ; 
 	buffer = (unsigned char*) (VIDEO_MEMORY );
@@ -77,6 +78,9 @@ void backspace(const char** string_data){
 
 /*****************************************************************************************/
 void video_write(const char *string , uint8_t color , bool erase){
+	if(!string) 
+		return ;
+	current_color = color ; 
 	if(erase)
 		buffer = (unsigned char*) VIDEO_MEMORY;
 	const char *p = string ;
@@ -109,6 +113,7 @@ void video_write(const char *string , uint8_t color , bool erase){
 
 /*****************************************************************************************/
 void video_write_to(const char* string , uint8_t color , uint16_t row , uint16_t col) {
+	current_color = color ; 
 	unsigned char *location =(unsigned char*)(VIDEO_MEMORY) + 2 * (COLS * row + col)   ; 
 		buffer = location ;
 		cursorX = row ; 
@@ -168,14 +173,19 @@ void scroll_screen(){
 
 /****************************************************************************/
 
-void putchar(char c , uint8_t color) {
-
+void putchar_col(char c , uint8_t color) {
+	current_color = color == 0x00 ? 0x0A : color ; 
 	char temp[2] = { c , '\0' } ; 
-	video_write(temp , color , false); 
+	video_write(temp , current_color , false); 
 
 }
 
+void putchar(char c) {
 
+	putchar_col(c , current_color) ; 
+
+
+}
 
 
 

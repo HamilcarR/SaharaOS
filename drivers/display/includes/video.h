@@ -51,5 +51,28 @@ void new_line(const char** string_data) ;
 //tabulation
 void tabulate(const char** string_data) ; 
 
-void putchar (char c , uint8_t color ) ; 
+void putchar_col(char c , uint8_t color ) ; 
+
+void putchar(char c) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif 
