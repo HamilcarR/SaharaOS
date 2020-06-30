@@ -7,7 +7,7 @@
 
 
 
-enum BITSIZE { BIT_8 = 2 , BIT_16 = 4 , BIT_32 = 8 } ; 
+typedef enum BITSIZE { BIT_8 = 2 , BIT_16 = 4 , BIT_32 = 8 }BITSIZE ; 
 
 
 
@@ -34,15 +34,10 @@ HEX_LAYOUT* init_hex_layout(uint8_t size) ;
  */
 void  read_hex (unsigned char* location , unsigned char bit_size , char* ret_value) ;
 
-/*turns "number" into hex value , depending on HEX_LAYOUT parameter "size" 
-*returning back 8,16 or 32 bits hexadecimal representation of "number"
-*in "hex_returned"
-*/
-void to_hex(uint32_t number , HEX_LAYOUT* hex_returned); 
-
-
-
-
+/* 
+ * Provide the number to convert to hex , and only hex_returned->size (BIT_8 , BIT_16 , BIT_32) 
+ */
+char* to_hex(uint32_t number , BITSIZE bit); 
 
 
 

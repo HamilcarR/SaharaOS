@@ -36,10 +36,8 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 		uint32_t i = 0 ; 
 		for (i = 0  ; i < size ; i++){
 			uint32_t j = 0 ;
-			HEX_LAYOUT layout ;
-			layout.size = BIT_32 ; 
-			to_hex((uint32_t) start , &layout) ; 
-			video_write((char*) layout.formated_string , color , false) ;  
+			char* hex = to_hex((uint32_t) start , BIT_32) ; 
+			video_write( hex , color , false) ;  
 			video_write("  " , 0x00 , false) ; 
 			
 			/*this writes hexadecimal values of memory ,similar to the "A" section  in the previous comment */
@@ -77,10 +75,8 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 /*****************************************************************************************/
 
 void display_byte(char byte , uint8_t color , bool erase ){
-	HEX_LAYOUT layout ; 
-	layout.size = BIT_8 ; 
-	to_hex((uint32_t) byte , &layout) ; 
-	video_write((char*) layout.formated_string ,0x0E , false) ; 
+	char* hex = to_hex((uint32_t) byte , BIT_8) ; 
+	video_write( hex  ,0x0E , false) ; 
 }
 
 

@@ -52,42 +52,38 @@ static void format_hex(HEX_LAYOUT* hex_layout){ /* we use that function to get t
 
 }
 
-
-
-
-
-
-
-
 /*****************************************************************************************/
-void to_hex(uint32_t number , HEX_LAYOUT* ret_value){
-	if(ret_value->size == 2){        //returns 8 bits representation
+char* to_hex(uint32_t number , BITSIZE bit){
+	static HEX_LAYOUT ret_value ;
+	ret_value.size = bit ; 
+	if(ret_value.size == 2){        //returns 8 bits representation
 		uint8_t ret_array[2] ; 
 		int_to_hex8( (uint8_t)number , ret_array) ;
-		ret_value->value[0] = ret_array[0] ; 
-		ret_value->value[1] = ret_array[1] ; 
+		ret_value.value[0] = ret_array[0] ; 
+		ret_value.value[1] = ret_array[1] ; 
 		
 	}
-	if(ret_value->size == 4){ // 16 bits representation
+	if(ret_value.size == 4){ // 16 bits representation
 		uint8_t ret_array[4] ; 
 		int_to_hex16( (uint16_t)number , ret_array) ; 
-		ret_value->value[0] = ret_array[0] ; 
-		ret_value->value[1] = ret_array[1] ; 
-		ret_value->value[2] = ret_array[2] ; 
-		ret_value->value[3] = ret_array[3] ; 
+		ret_value.value[0] = ret_array[0] ; 
+		ret_value.value[1] = ret_array[1] ; 
+		ret_value.value[2] = ret_array[2] ; 
+		ret_value.value[3] = ret_array[3] ; 
 		
 	}
 
-	if(ret_value->size == 8){// 32 bits representation 
+	if(ret_value.size == 8){// 32 bits representation 
 		uint8_t ret_array[8] ; 
 		int_to_hex32( (uint32_t)number , ret_array) ;
 		uint8_t i ; 
-		for (i = 0 ; i < ret_value->size ; i++)
-			ret_value->value[i] = ret_array[i] ; 
+		for (i = 0 ; i < ret_value.size ; i++)
+			ret_value.value[i] = ret_array[i] ; 
 
 	}
 
-	format_hex(ret_value) ; 
+	format_hex(&ret_value) ; 
+	return (char*) ret_value.formated_string ; 
 	
 }
 /*****************************************************************************************/

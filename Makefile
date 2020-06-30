@@ -53,17 +53,15 @@ assemble : $(BOOTLOADER) $(KERNEL)
 	qemu-img resize $(EXEC) +100K
 
 OBJDUMP : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) $(OBJ_ASM_K) 
-	ld -melf_i386 -o $@ -Ttext 0x1000 $^ 
-
-
+	ld -T dscript.ld -o $@ $^
 
 #Kernel build and drivers
 
 $(KERNEL) : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) $(OBJ_ASM_K)
-	ld -melf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
+	ld -T rscript.ld -o $@ $^
 
 $(KDEBUG) : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) $(OBJ_ASM_K) 
-	ld -melf_i386 -o $@ -Ttext 0x1000 $^ 
+	ld -melf_i386 -T dscript.ld -o $@ $^
 
 %.o : %.c $(KERNEL_INC) $(DRIVERS_INC) 
 	$(CC) $(CFLAGS) -c $< -o $@
