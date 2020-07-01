@@ -26,7 +26,7 @@ bool is_free_block(size_t size ,const MEM_HEADER* block){
 
 /*returns address of new block*/
 uint32_t* allocate_next_block(size_t size ,  MEM_HEADER* block) {
-	uint32_t* next_addr =(uint32_t*) ( sizeof(MEM_HEADER) + block->size)  ; 
+	uint32_t* next_addr =(uint32_t*) ( block->block_pointer + sizeof(MEM_HEADER) + block->size)  ; 
 	block->next_block_pointer = next_addr ; 
 	if( size > (uint32_t*) (END_HEAP) - (next_addr + sizeof(MEM_HEADER))) 
 		return NULL ; 
