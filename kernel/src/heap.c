@@ -22,6 +22,30 @@ bool is_free_block(size_t size ,const MEM_HEADER* block){
 
 }
 
+
+
+/********************************************************************************************/
+/* returns the address of a block if ptr is a valid data pointer , ie , belongs to a block*/
+uint32_t* is_allocated(uint32_t* ptr ){
+	const void* BEGIN_MEMORY = &_END_KERNEL_ADDRESS ; 
+	MEM_HEADER* base = (MEM_HEADER*) BEGIN_MEMORY ; 
+	
+	while(base){
+
+		if(base->data_pointer == ptr) 
+			return (uint32_t*) base ; 
+		base = (MEM_HEADER*) base->next_block_pointer ; 
+	}
+	return NULL ; 
+
+}
+
+
+
+
+
+
+
 /********************************************************************************************/
 
 /*returns address of new block*/
@@ -79,6 +103,45 @@ void* kmalloc(size_t size) {
 	return (void*) free_addr ; 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/********************************************************************************************/
+void kfree(void* ptr){
+	const void* BEGIN_MEMORY = &_END_KERNEL_ADDRESS ; 
+	uint32_t* ptr_addr = (uint32_t*) ptr ; 
+	uint32_t* block = is_allocated(ptr) ; 
+	if(!block) 
+		return ; //interrupt ? TODO
+	MEM_HEADER* block_header = (MEM_HEADER*) block ; 
+	block_header->descriptor = 0x00 ; 	
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 /********************************************************************************************/
