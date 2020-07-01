@@ -25,14 +25,14 @@ typedef struct KERNEL_MEMORY_ALLOC_HEADER {
 	uint32_t *next_block_pointer ; /*pointer to next block , from next header start*/
 	uint32_t *prev_block_pointer ; /*pointer to the previous memory block , from header start*/
 	uint32_t *data_pointer ; /*actual pointer returned by kmalloc*/
-}__attribute__((packed)) MEM_HEADER ; 
+}__attribute__((packed , aligned(4) )) MEM_HEADER ; 
 
 
 
 
 
 void* kmalloc(size_t size); 
-
+void kfree(void* ptr) ; 
 void init_heap() ; 
 
 
