@@ -6,7 +6,7 @@
 
 
 
-
+/*characters and string management*/
 
 
 
@@ -41,6 +41,18 @@ const char* toupperstr(const char* str) ;
 
 /*returns lowercase string*/
 const char* tolowerstr(const char* str) ; 
+
+/*reverse string*/
+char* strrev(char* str) ; 
+
+
+/*returns string representation of integer (base 10) */
+const char* itostr(int n) ; 
+
+/*returns integer from integer representation in str*/
+int stoi(const char* str) ; 
+
+
 
 
 

@@ -1,6 +1,5 @@
 #include "../includes/string.h"
-
-
+#include "../includes/math.h"
 
 
 
@@ -121,6 +120,20 @@ const char* tolowerstr(const char* str){
 
 
 
+/*****************************************************************************************/
+ char* strrev( char* str) {
+	int size = strlen(str) ; 
+	char temp ; 
+	int i = 0 , j = 0 ; 
+	for(i = 0 , j = size-1 ; i <= size/2 && j >= size/2 ; i++ , j--){
+		temp = str[i] ; 
+		str[i] = str[j] ; 
+		str[j] = temp ; 
+	}
+
+	return str; 
+
+}
 
 
 
@@ -133,6 +146,76 @@ const char* tolowerstr(const char* str){
 
 
 
+
+
+
+/*****************************************************************************************/
+
+
+static const char* num_table = "0123456789";
+
+const char* itostr(int n) {
+
+
+	unsigned int div =  n >= 0 ? n : -n ; 
+	unsigned int base = 10 ; 
+	static char result[13] = {0} ; //max value for a 32bits  integer has 10 digits + '\0' 
+	int i = 0 ;
+	unsigned int temp = 0 ; 
+	while((temp = div/base)){
+		result[i] = num_table [div % base ] ; 
+		i++;
+		div = temp ; 
+	}
+	result[i] = num_table[div % base ] ;
+	const char* p = (const char*) result ;
+	strrev((char*) p) ; 
+	if( n < 0 ) {
+		i = 0 ; 
+		size_t size = strlen((const char*) result) ; 
+		for(i = size ; i >= 1 ; i--){
+			result[i] = result[i-1] ;  
+		}
+
+		result[0] = '-' ; 
+		result[12] = '\0' ; 
+
+
+	}
+
+	return (const char*) result ; 
+
+}
+
+
+
+
+/*****************************************************************************************/
+
+
+
+int get_number_index(char c) {
+	int i = 0 ; 
+	for(i = 0 ; i < 10 ; i++)
+		if(c == num_table[i]) 
+			return i ; 
+	return -1 ; 
+}
+int stoi(const char* str){
+	size_t size = strlen(str) ; 
+	int i = 0 ; 
+	int result = 0 ;
+	char* p = (char*) str; 
+	for(i = size-1 ; i >= 0 ; i--){
+		int number = get_number_index(*p) ; 
+		if(number == -1) 
+			return 0 ; 
+		result += pow(10 , i ) * number;
+		p++ ;
+	}
+	return result ; 
+
+}
 
 
 
