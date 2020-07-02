@@ -18,16 +18,29 @@ badd +1 kernel/src/hex_print.c
 badd +1 kernel/includes/hex_print.h
 badd +1 kernel/src/memory.c
 badd +1 kernel/includes/memory.h
-badd +28 bootloader/assembly/boot.asm
-badd +6 bootloader/kernel_entry/kernel_entry.asm
-badd +0 kernel/includes/string.h
-badd +0 kernel/src/string.c
+badd +29 bootloader/assembly/boot.asm
+badd +10 bootloader/kernel_entry/kernel_entry.asm
+badd +1 kernel/includes/string.h
+badd +1 kernel/src/string.c
+badd +0 kernel/includes/Kconstants.h
+badd +0 kernel/src/KLinkedLists.c
+badd +5 kernel/includes/KLinkedLists.h
+badd +0 kernel/src/heap.c
+badd +0 kernel/includes/heap.h
+badd +0 kernel/src/stdio.c
+badd +0 kernel/includes/stdio.h
+badd +0 kernel/src/math.c
+badd +0 kernel/includes/math.h
 argglobal
 %argdel
 $argadd kernel/src/main.c
 set stal=2
-edit kernel/src/main.c
+edit kernel/includes/Kconstants.h
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
@@ -35,6 +48,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
+exe 'vert 1resize ' . ((&columns * 120 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 121 + 121) / 242)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -45,12 +60,85 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 20 - ((19 * winheight(0) + 28) / 56)
+let s:l = 16 - ((13 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-20
+16
 normal! 0
+wincmd w
+argglobal
+if bufexists("kernel/src/main.c") | buffer kernel/src/main.c | else | edit kernel/src/main.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 29 - ((28 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+29
+normal! 027|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 120 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 121 + 121) / 242)
+tabedit kernel/includes/stdio.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 3 - ((2 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+3
+normal! 0
+wincmd w
+argglobal
+if bufexists("kernel/src/stdio.c") | buffer kernel/src/stdio.c | else | edit kernel/src/stdio.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 100 - ((55 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+100
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
 tabedit kernel/includes/IDT.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -94,12 +182,64 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 28) / 56)
+let s:l = 103 - ((11 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 046|
+103
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+tabedit kernel/includes/heap.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 43 - ((42 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+43
+normal! 07|
+wincmd w
+argglobal
+if bufexists("kernel/src/heap.c") | buffer kernel/src/heap.c | else | edit kernel/src/heap.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 126 - ((37 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+126
+normal! 09|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
 exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
@@ -146,12 +286,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 32 - ((8 * winheight(0) + 28) / 56)
+let s:l = 79 - ((49 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-32
-normal! 039|
+79
+normal! 09|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
 exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
@@ -232,12 +372,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 10 - ((8 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+10
+normal! 067|
 wincmd w
 argglobal
 if bufexists("kernel/src/hex_print.c") | buffer kernel/src/hex_print.c | else | edit kernel/src/hex_print.c | endif
@@ -250,11 +390,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 87 - ((45 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+87
 normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
@@ -284,11 +424,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 31 - ((30 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+31
 normal! 0
 wincmd w
 argglobal
@@ -302,11 +442,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 67 - ((31 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+67
 normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
@@ -336,12 +476,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 45 - ((44 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+45
+normal! 018|
 wincmd w
 argglobal
 if bufexists("kernel/src/string.c") | buffer kernel/src/string.c | else | edit kernel/src/string.c | endif
@@ -354,17 +494,69 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 218 - ((44 * winheight(0) + 28) / 56)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+218
 normal! 0
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 120 + 121) / 242)
 exe 'vert 2resize ' . ((&columns * 121 + 121) / 242)
-tabnext 7
+tabedit kernel/includes/math.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 5 - ((4 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+5
+normal! 0
+wincmd w
+argglobal
+if bufexists("kernel/src/math.c") | buffer kernel/src/math.c | else | edit kernel/src/math.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 8 - ((7 * winheight(0) + 28) / 56)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+8
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
+exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+tabnext 9
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
