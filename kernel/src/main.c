@@ -4,34 +4,27 @@
 #include "../includes/mem_debug.h" 
 #include "../includes/IDT.h"
 #include "../includes/heap.h" 
+#include "../includes/stdio.h" 
 
 
 
+void init_systems(){
 
+	init_idt();	
+	init_heap() ; 
+	init_video(); 
+	clear_screen() ;
 
+}
 
 
 void _start(){
-
-	const char* welcome = "So... what does B.B stand for anyway... ?\n Backstabbing bastard ?\n" ; 
-	init_video(); 
-	clear_screen() ;
-	video_write( welcome , 0x0E , false) ;
-	init_heap() ; 
-	char *ptr = (char*) kmalloc(2 * sizeof(char)) ; 
-	if(ptr != NULL) {
-		ptr[0] = 0xFB ;
-		ptr[1] = 0xAA ; 
-	}
-	display_memory((char*) ptr , 8 , 16 , 0x0E , false) ; 
-	video_write(to_hex((uint8_t) ptr[0] , BIT_8) , 0x0E , false) ; 
-
-	video_write(to_hex((uint8_t) ptr[1] , BIT_8) , 0x0E , false) ; 
-
-
-
+	init_systems() ; 
 	
-	init_idt();
+	set_attribute(0x90); 
+	kprint("Displaying memory at $B8000") ;
+	display_memory((char*) 0xB8000 , 8 , 16 , 0x0E , false);
+
 
 	while(1) ; 
 }

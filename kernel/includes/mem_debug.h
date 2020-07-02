@@ -4,7 +4,7 @@
 #include "../includes/Kconstants.h" 
 #include <stdint.h> 
 #include "hex_print.h"  
-
+#include "stdio.h"
 /*
  * memory dump
  * padding = chunks of bytes to display (4  , or 8)  

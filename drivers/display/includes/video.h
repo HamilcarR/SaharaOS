@@ -22,13 +22,13 @@ typedef struct CUR_LOCATION {
 void init_video() ; 
 
 //write until '\0' is encountered
-void video_write(const char *string , uint8_t color , bool erase);
+void video_write(const char *string , bool erase);
 
 //clear the screen
 void clear_screen () ; 
 
 //write to position (ROW , COL) 
-void video_write_to(const char* string , uint8_t color , uint16_t row , uint16_t col); 
+void video_write_to(const char* string , uint16_t row , uint16_t col); 
 
 //set cursor 
 void enable_cursor(uint8_t start , uint8_t end); 
@@ -54,8 +54,8 @@ void tabulate(const char** string_data) ;
 void putchar_col(char c , uint8_t color ) ; 
 
 void putchar(char c) ;
-
-
+/*change vga attribute*/
+void set_attribute(uint8_t attrib) ; 
 
 
 

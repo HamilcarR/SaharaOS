@@ -22,7 +22,7 @@ void empty_buffer(char* buffer , size_t size){
 		}
 		else{
 			/* if buffer is complete , we flush */
-			video_write((const char*) buffer , 0x0E , false) ;
+			video_write((const char*) buffer , false) ;
 			empty_buffer(buffer , BUFFER_SIZE) ;
 			*buffer_position = 0 ; 
 		}
@@ -88,7 +88,7 @@ void kprint(const char* text , ... ) {
 		c++ ; 
 	}
 
-	video_write((const char*) buffer , 0x0E , false) ; 
+	video_write((const char*) buffer  , false) ; 
 
 
 

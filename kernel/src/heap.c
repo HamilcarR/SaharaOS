@@ -123,7 +123,6 @@ void* kmalloc(size_t size) {
 /********************************************************************************************/
 void kfree(void* ptr){
 	const void* BEGIN_MEMORY = &_END_KERNEL_ADDRESS ; 
-	uint32_t* ptr_addr = (uint32_t*) ptr ; 
 	uint32_t* block = is_allocated(ptr) ; 
 	if(!block) 
 		return ; //interrupt ? TODO
