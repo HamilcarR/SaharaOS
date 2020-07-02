@@ -1,5 +1,5 @@
 # SaharaOS
-Is an operating system for x86 platform , written in C11 , from scratch .
+Is an operating system's kernel for x86 platform , written in C11 , from scratch .
 
 Features implemented : 
 
