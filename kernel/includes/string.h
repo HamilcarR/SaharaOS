@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include "memory.h"
-
+#include <stdarg.h>
 
 
 /*characters and string management*/
@@ -52,7 +52,8 @@ const char* itostr(int n) ;
 /*returns integer from integer representation in str*/
 int stoi(const char* str) ; 
 
-
+/*returns string representation of f , precision is the number of decimal digits*/
+const char* ftostr(double f) ; 
 
 
 

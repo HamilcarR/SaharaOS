@@ -54,25 +54,31 @@ void kprint(const char* text , ... ) {
 						
 				break ; 
 
-				case 'f' :	//float
-
+				case 'f' : ; 	//float
+					double numberf = va_arg(args , double) ; 
+					const char* float_to_str = ftostr(numberf) ; 
+					char *cc2 = (char*) float_to_str ; 
+					for ( ; *cc2 != '\0' ; cc2++) 
+						add_value(buffer , cc2 , &buffer_position) ; 
 				break; 
 
-				case 'p' :	//pointer 
+				case 'p' : ;    //pointer 
 
 				break ; 
 				
-				case 'c' :	//character
-
+				case 'c' : ; 	//character
+					char cc1 = (char) va_arg(args , int) ; 
+					add_value(buffer , &cc1 , &buffer_position) ; 
 				break ; 
 				
-				case 's' : 	//const char *
-						
-
+				case 's' : ;  	//const char *
+					char* str = va_arg(args , char*) ; 
+					for( ; *str != '\0' ; str++)
+						add_value(buffer , str  , &buffer_position) ; 
 				break ; 
 
 				case 'x' :       //hexa integer
-
+					
 				break ; 
 				
 				default : 

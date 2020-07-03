@@ -6,7 +6,6 @@
 
 
 
-
 /*****************************************************************************************/
 size_t strlen(const char* str){
 	const char *c = str ; 
@@ -161,6 +160,9 @@ const char* itostr(int n) {
 	unsigned int base = 10 ; 
 	static char result[13] = {0} ; //max value for a 32bits  integer has 10 digits + '\0' 
 	int i = 0 ;
+	for( ; i < 13 ; i++)
+		result[i] = 0 ; 
+	i = 0 ; 
 	unsigned int temp = 0 ; 
 	while((temp = div/base)){
 		result[i] = num_table [div % base ] ; 
@@ -216,6 +218,96 @@ int stoi(const char* str){
 	return result ; 
 
 }
+
+
+
+
+
+
+/*****************************************************************************************/
+
+
+
+
+char last_digit(const char* str){
+	size_t size = strlen(str) ; 
+	return str[size-1] ; 
+}
+
+
+
+
+
+
+#define DEFAULT_PRECISION 10
+#define DEFAULT_PRECISION_SIZE 24	//for the returned array 
+const char* ftostr(double number) {
+	
+	int i = 0 ; 
+	int precision = DEFAULT_PRECISION ; 			
+	unsigned long long integer = (unsigned long long) number ; 	//
+	double decimal = number - (double) integer ; 			// Retrieves the integral part of the float
+	const char* integer_str = itostr((int) integer) ; 		//
+	static char returned_array[DEFAULT_PRECISION_SIZE] = {0} ; 
+	for( ; i < DEFAULT_PRECISION_SIZE ; i++)
+		returned_array[i] = 0 ; 
+	i = 0 ; 
+	const size_t integer_size = strlen(integer_str) ;
+	char* c = NULL ; 
+
+	if(number >= 0) {						//add the sign or not
+		memcpy(returned_array , integer_str , integer_size) ; 
+		c = returned_array + integer_size ; 
+	}
+	else{
+		memcpy(returned_array+1 , integer_str , integer_size) ; 
+		returned_array[0] = '-' ; 
+		c = returned_array + 1  + integer_size ; 
+	}
+
+	*c = '.' ; //decimal 
+	c++ ;
+	int factor = 10 ; 
+	while(i < precision) {						//Retrieves the decimal part ,it's size is computed automatically
+		decimal *= factor ; 
+		integer = (unsigned long long) decimal ; 
+		*c = last_digit(itostr(integer)) ;
+		c++ ; 
+		i++; 
+	}
+	
+	returned_array[DEFAULT_PRECISION_SIZE - 1] = 0 ; 
+	c = returned_array + DEFAULT_PRECISION_SIZE - 1 ; 
+
+	for (; *c == '\0' || *c == '0' ; c--)
+		*c = '\0' ; 
+
+	return (const char*) returned_array ; 
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

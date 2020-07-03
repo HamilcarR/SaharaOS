@@ -22,7 +22,7 @@ void _start(){
 	init_systems() ; 
 	
 	set_attribute(0x90); 
-	kprint("Displaying memory at $B8000") ;
+	kprint("%f" , 11920.1230345) ;
 	display_memory((char*) 0xB8000 , 8 , 16 , 0x0E , false);
 
 
