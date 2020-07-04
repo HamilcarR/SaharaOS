@@ -1,5 +1,6 @@
 #include "../includes/stdio.h"
 #include "../../drivers/display/includes/video.h"
+#include "../includes/hex_print.h" 
 #define BUFFER_SIZE 256
 
 
@@ -41,7 +42,9 @@ void kprint(const char* text , ... ) {
 	char *c =(char*) text ; 
 	while(*c != '\0'){
 
+
 		if( *c == '%'){ 
+parameter:					// Am I a heretic ? 
 			c++ ; 
 			switch(*c) {
 				case 'd' : ; 	//integer
@@ -63,7 +66,11 @@ void kprint(const char* text , ... ) {
 				break; 
 
 				case 'p' : ;    //pointer 
-
+					uint32_t *pointer = va_arg(args , uint32_t*) ; 
+					const char* hex = (const char*) to_hex((uint32_t) pointer , BIT_32) ; 
+					char *cc3 = (char*) hex ; 
+					for( ; *cc3 != '\0' ; cc3++)
+						add_value(buffer , cc3 , &buffer_position) ; 
 				break ; 
 				
 				case 'c' : ; 	//character
@@ -81,16 +88,24 @@ void kprint(const char* text , ... ) {
 					
 				break ; 
 				
-				default : 
+				case 'b' : ;     //binary
 
+				break;
+					   
+				default : ;
+					char v = '%' ; 
+					add_value(buffer , &v , &buffer_position) ; 
+					add_value(buffer , c , &buffer_position) ; 
 				break ; 
 
 
 			}
-			c++ ; 
+			c++ ;
+			if(*c == '%')
+				goto parameter ; 
 		}
 		add_value(buffer , c , &buffer_position) ; 
-
+		
 		c++ ; 
 	}
 
