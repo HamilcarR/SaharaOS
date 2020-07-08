@@ -38,10 +38,10 @@ all : run
 $(EXEC) : assemble
 
 debug : $(EXEC) $(KDEBUG)
-	qemu-system-i386 -S -gdb tcp::9000 $<
+	qemu-system-i386 -soundhw pcspk -S -gdb tcp::9000 $<
 
 run : $(EXEC) 
-	qemu-system-i386 -d guest_errors $<
+	qemu-system-i386 -soundhw pcspk -d guest_errors $<
 
 disassemble : $(KERNEL)
 	ndisasm -b 32 $? | cat

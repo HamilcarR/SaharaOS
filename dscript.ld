@@ -30,7 +30,7 @@ SECTIONS
 	{
 		*(COMMON)
 		*(.bss)
-
+	_END_KERNEL_ADDRESS = . ;  
 	}
 
 
@@ -39,6 +39,6 @@ SECTIONS
 }
 
 
-_END_KERNEL_ADDRESS = ALIGN(4K) ;  
+
 
 

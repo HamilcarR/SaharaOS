@@ -242,9 +242,8 @@ char last_digit(const char* str){
 #define DEFAULT_PRECISION 10
 #define DEFAULT_PRECISION_SIZE 24	//for the returned array 
 const char* ftostr(double number) {
-	
+	double absnumber = abs(number) ; 
 	int i = 0 ; 
-	int precision = DEFAULT_PRECISION ; 			
 	unsigned long long integer = (unsigned long long) number ; 	//
 	double decimal = number - (double) integer ; 			// Retrieves the integral part of the float
 	const char* integer_str = itostr((int) integer) ; 		//
@@ -254,22 +253,16 @@ const char* ftostr(double number) {
 	i = 0 ; 
 	const size_t integer_size = strlen(integer_str) ;
 	char* c = NULL ; 
-
-	if(number >= 0) {						//add the sign or not
-		memcpy(returned_array , integer_str , integer_size) ; 
-		c = returned_array + integer_size ; 
-	}
-	else{
-		memcpy(returned_array+1 , integer_str , integer_size) ; 
-		returned_array[0] = '-' ; 
-		c = returned_array + 1  + integer_size ; 
-	}
-
+	memcpy(returned_array , integer_str , integer_size) ; 
+	c = returned_array + integer_size ; 
 	*c = '.' ; //decimal 
 	c++ ;
-	int factor = 10 ; 
-	while(i < precision) {						//Retrieves the decimal part ,it's size is computed automatically
-		decimal *= factor ; 
+	int factor = 10 ;
+	integer = (unsigned long long) absnumber ; 
+	decimal = absnumber - (double) integer ; 
+	while(i < DEFAULT_PRECISION) {						//Retrieves the decimal part ,it's size is computed automatically
+		decimal *= factor ;
+		decimal = abs(decimal) ; 
 		integer = (unsigned long long) decimal ; 
 		*c = last_digit(itostr(integer)) ;
 		c++ ; 
@@ -281,7 +274,8 @@ const char* ftostr(double number) {
 
 	for (; *c == '\0' || *c == '0' ; c--)
 		*c = '\0' ; 
-
+	if(*c == '.')
+		*c = '\0' ; 
 	return (const char*) returned_array ; 
 
 

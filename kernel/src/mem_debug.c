@@ -37,7 +37,7 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 		uint32_t i = 0 ; 
 		for (i = 0  ; i < size ; i++){
 			uint32_t j = 0 ;
-			char* hex = to_hex((uint32_t) start , BIT_32) ;
+			char* hex = hex_address_format((uint32_t) start , BIT_32) ;
 			set_attribute(0x04); 
 			video_write( hex  , false) ;  
 			set_attribute(0x0) ; 

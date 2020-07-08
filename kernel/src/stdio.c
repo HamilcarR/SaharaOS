@@ -67,7 +67,7 @@ parameter:					// Am I a heretic ?
 
 				case 'p' : ;    //pointer 
 					uint32_t *pointer = va_arg(args , uint32_t*) ; 
-					const char* hex = (const char*) to_hex((uint32_t) pointer , BIT_32) ; 
+					const char* hex = (const char*) hex_address_format((uint32_t) pointer , BIT_32) ; 
 					char *cc3 = (char*) hex ; 
 					for( ; *cc3 != '\0' ; cc3++)
 						add_value(buffer , cc3 , &buffer_position) ; 

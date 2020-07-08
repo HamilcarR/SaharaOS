@@ -1,5 +1,5 @@
 #include "../includes/hex_print.h" 
-
+#include "../includes/memory.h" 
 
 
 
@@ -101,14 +101,19 @@ char* to_hex(uint32_t number , BITSIZE bit){
 }
 
 /*****************************************************************************************/
-HEX_LAYOUT* init_hex_layout(uint8_t size) {
-	//TODO : dynamic memory management
 
-	return 0 ; 
 
+char* hex_address_format(uint32_t number , BITSIZE bit){
+		const char* hex = to_hex(number , bit) ; 
+		static char address_format[10]	; 
+		char *c = (char*)hex + 2 ; 
+		for( ; *c == '0' ; c++) ; 
+		memset(address_format , 0 , 9) ; 
+		memcpy(address_format + 1 , c , 8) ; 
+		address_format[0] = '$' ;
+
+		return (char*) address_format ; 
 }
-
-
 
 
 

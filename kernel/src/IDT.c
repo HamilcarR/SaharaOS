@@ -22,6 +22,7 @@
 #define ICW4_SFNM	0x10 //special fully nested 
 
 
+
 const uint16_t KERNEL_CODE_SEG_OFFSET = 0x08 ; //see GDT in bootloader
 
 
@@ -63,7 +64,6 @@ extern int32_t irq15(); //HDD 2 IDE
 
 
 
-
 static void init_PIC(){
 	port_byte_out(PICM , 0x11) ; //write command to PIC master and slave
 	port_byte_out(PICS , 0x11) ; 
@@ -84,6 +84,7 @@ static void init_PIC(){
 
 
 
+
 static void set_gate(uint8_t val , int32_t (irq_addr)(void) ){
 	
 	uint32_t irq_ptr = (uint32_t) irq_addr ; 
@@ -92,47 +93,67 @@ static void set_gate(uint8_t val , int32_t (irq_addr)(void) ){
 	idt[val].zero = 0x00 ; 
 	idt[val].type_attr = 0x8E ; // 32 bit interrupt gate 
 	idt[val].offset_high = (irq_ptr & 0xFFFF0000) >> 16 ; 
-
-
 }
+
+
+static void (*IRQ_handlers[256])(void) ; 
 
 void init_idt() {	
 	
 	init_PIC() ; 
 	
-	set_gate(32 , irq0); 
-	set_gate(33 , irq1); 
-	set_gate(34 , irq2); 
-	set_gate(35 , irq3); 
-	set_gate(36 , irq4); 
-	set_gate(37 , irq5); 
-	set_gate(38 , irq6); 
-	set_gate(39 , irq7); 
-	set_gate(40 , irq8); 
-	set_gate(41 , irq9); 
-	set_gate(42 , irq10); 
-	set_gate(43 , irq11); 
-	set_gate(44 , irq12); 
-	set_gate(45 , irq13); 
-	set_gate(46 , irq14); 	
-	set_gate(47 , irq15); 
+	set_gate(IRQ0 , irq0); 
+	set_gate(IRQ1 , irq1); 
+	set_gate(IRQ2 , irq2); 
+	set_gate(IRQ3 , irq3); 
+	set_gate(IRQ4 , irq4); 
+	set_gate(IRQ5 , irq5); 
+	set_gate(IRQ6 , irq6); 
+	set_gate(IRQ7 , irq7); 
+	set_gate(IRQ8 , irq8); 
+	set_gate(IRQ9 , irq9); 
+	set_gate(IRQ10 , irq10); 
+	set_gate(IRQ11 , irq11); 
+	set_gate(IRQ12 , irq12); 
+	set_gate(IRQ13 , irq13); 
+	set_gate(IRQ14 , irq14); 	
+	set_gate(IRQ15 , irq15); 
 	
 	IDT_PTR ptr ; 
 	ptr.limit = sizeof(IDT_ENTRY) * 256 - 1   ; 
 	ptr.base = (uint32_t) &idt ; 
 	
 	load_idt(&ptr) ; 
+
+	int i = 0 ; 
+	for( ; i < 256 ; i++)
+		IRQ_handlers[i] = NULL ; 
 }
 
-void irq0_handler(void) {
 
+
+
+
+
+void register_idt_handler(uint8_t irq , void (*function)(void)){
+
+	IRQ_handlers[irq] = function ; 
+
+}
+
+
+
+
+void irq0_handler(void) {
+	if(IRQ_handlers[IRQ0] != NULL)
+		(*IRQ_handlers[IRQ0])() ; 
 	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
 void irq1_handler(void) {
 
         char c = keyboard_handler();
-	putchar(c) ; 
+	putchar(c) ;
 	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  

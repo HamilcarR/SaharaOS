@@ -10,8 +10,14 @@ set shortmess=aoO
 badd +1 drivers/display/src/video.c
 badd +1 drivers/display/includes/video.h
 badd +1 drivers/display/includes/constants.h
-badd +0 drivers/keyboard/src/keyboard.c
-badd +0 drivers/keyboard/includes/keyboard.h
+badd +1 drivers/keyboard/src/keyboard.c
+badd +1 drivers/keyboard/includes/keyboard.h
+badd +1 drivers/sound/src/sound.c
+badd +1 drivers/sound/includes/sound.h
+badd +0 drivers/PIT/src/PIT.c
+badd +0 drivers/PIT/includes/PIT.h
+badd +0 drivers/ports/includes/IO_ports.h
+badd +0 drivers/ports/src/IO_ports.c
 argglobal
 %argdel
 $argadd drivers/display/src/video.c
@@ -29,8 +35,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
-exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+exe 'vert 1resize ' . ((&columns * 87 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 125 + 106) / 213)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -41,11 +47,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 50 - ((49 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+50
 normal! 0
 wincmd w
 argglobal
@@ -59,15 +65,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
-exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+exe 'vert 1resize ' . ((&columns * 87 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 125 + 106) / 213)
 tabedit drivers/keyboard/includes/keyboard.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -81,8 +87,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
-exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+exe 'vert 1resize ' . ((&columns * 87 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 125 + 106) / 213)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -93,7 +99,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -111,15 +117,172 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 121 + 121) / 242)
-exe 'vert 2resize ' . ((&columns * 120 + 121) / 242)
+exe 'vert 1resize ' . ((&columns * 87 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 125 + 106) / 213)
+tabedit drivers/PIT/includes/PIT.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists("drivers/PIT/src/PIT.c") | buffer drivers/PIT/src/PIT.c | else | edit drivers/PIT/src/PIT.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 25 - ((24 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+25
+normal! 02|
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
+tabedit drivers/sound/includes/sound.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 87 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 125 + 106) / 213)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists("drivers/sound/src/sound.c") | buffer drivers/sound/src/sound.c | else | edit drivers/sound/src/sound.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 87 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 125 + 106) / 213)
+tabedit drivers/ports/includes/IO_ports.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists("drivers/ports/src/IO_ports.c") | buffer drivers/ports/src/IO_ports.c | else | edit drivers/ports/src/IO_ports.c | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
 tabedit drivers/display/includes/constants.h
 set splitbelow splitright
 set nosplitbelow
@@ -139,13 +302,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 28) / 56)
+let s:l = 20 - ((19 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+20
 normal! 0
-tabnext 2
+tabnext 3
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

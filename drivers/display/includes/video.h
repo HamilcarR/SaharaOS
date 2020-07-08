@@ -2,9 +2,8 @@
 #define VIDEO_H
 #include <stdint.h>
 #include "constants.h" 
-#include "../../../kernel/includes/IO_ports.h" 
 #include "../../../kernel/includes/Kconstants.h" 
-
+#include "../../ports/includes/IO_ports.h" 
 
 typedef struct CUR_LOCATION {
 
