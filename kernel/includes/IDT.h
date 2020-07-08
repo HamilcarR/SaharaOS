@@ -6,6 +6,40 @@
 #define _SIZE_IDT 0xFF 
 
 
+
+
+
+
+#define DIVIDE_BY_ZERO_ERROR 		0x00
+#define DEBUG		     		0x01
+#define NON_MASKABLE_IRT     		0x02
+#define BREAKPOINT			0x03
+#define OVERFLOW 			0x04
+#define BOUND_RANGE_EXCEEDED		0x05
+#define INVALID_OPCODE			0x06
+#define DEVICE_NOT_AVAILABLE		0x07
+#define DOUBLE_FAULT			0x08
+#define COPROC_SEG_OVERRUN		0x09
+#define INVALID_TSS			0x0A
+#define SEG_NOT_PRESENT			0x0B
+#define STACK_SEG_FAULT			0x0C
+#define GENERAL_PROTECTION_FAULT	0x0D
+#define PAGE_FAULT	     		0x0E
+#define x87_FLOATING_POINT_EXCEPTION	0x10
+#define ALIGNMENT_CHECK			0x11
+#define MACHINE_CHECK			0x12
+#define SIMD_FLOATING_POINT_EXCEPTION	0x13
+#define VIRTUALIZATION_EXCEPTION	0x14
+#define SECURITY_EXCEPTION		0x1E
+#define RESERVED			0x1F
+
+
+
+
+
+
+
+
 #define IRQ0 32
 #define IRQ1 33
 #define IRQ2 34

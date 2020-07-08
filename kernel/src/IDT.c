@@ -57,7 +57,26 @@ extern int32_t irq15(); //HDD 2 IDE
 
 
 
-
+/*Exceptions*/
+extern int32_t _DE(); //divide by zero 
+extern int32_t _DB(); //debug
+extern int32_t _BP(); //breakpoint
+extern int32_t _OF(); //overflow
+extern int32_t _BR(); //bound range exceeded
+extern int32_t _UD(); //invalid opcode
+extern int32_t _NM(); //device not available
+extern int32_t _DF(); //double fault
+extern int32_t _TS(); //invalid tss 
+extern int32_t _NP(); //segment not present
+extern int32_t _SS(); //stack segment fault
+extern int32_t _GP(); //general protection fault
+extern int32_t _PF(); //page fault
+extern int32_t _MF(); //x87 floating point exception
+extern int32_t _AC(); //alignment check
+extern int32_t _MC(); //machine check
+extern int32_t _XM(); //simd floating point exception
+extern int32_t _VE(); //virtualization exception
+extern int32_t _SX(); //security exception
 
 
 
@@ -102,6 +121,26 @@ void init_idt() {
 	
 	init_PIC() ; 
 	
+	set_gate(DIVIDE_BY_ZERO_ERROR , _DE) ; 
+	set_gate(DEBUG , _DB) ; 
+	set_gate(BREAKPOINT ,_BP ) ; 
+	set_gate(OVERFLOW , _OF) ; 
+	set_gate(BOUND_RANGE_EXCEEDED , _BR) ; 
+	set_gate(INVALID_OPCODE , _UD) ; 
+	set_gate(DEVICE_NOT_AVAILABLE , _NM) ; 
+	set_gate(DOUBLE_FAULT , _DF) ; 
+	set_gate(INVALID_TSS , _TS) ; 
+	set_gate(SEG_NOT_PRESENT , _NP) ; 
+	set_gate(STACK_SEG_FAULT , _SS) ; 
+	set_gate(GENERAL_PROTECTION_FAULT , _GP) ; 
+	set_gate(PAGE_FAULT , _PF) ; 
+	set_gate(x87_FLOATING_POINT_EXCEPTION , _MF) ; 
+	set_gate(ALIGNMENT_CHECK , _AC) ; 
+	set_gate(MACHINE_CHECK , _MC) ; 
+	set_gate(SIMD_FLOATING_POINT_EXCEPTION , _XM) ; 
+	set_gate(VIRTUALIZATION_EXCEPTION , _VE) ; 
+	set_gate(SECURITY_EXCEPTION , _SX) ; 
+	
 	set_gate(IRQ0 , irq0); 
 	set_gate(IRQ1 , irq1); 
 	set_gate(IRQ2 , irq2); 
@@ -142,7 +181,83 @@ void register_idt_handler(uint8_t irq , void (*function)(void)){
 }
 
 
+void DE_handler(void){
+	
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 
+}
+void DB_handler(void){
+	
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void BP_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void OF_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void BR_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void UD_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void NM_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void DF_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void TS_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void NP_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void SS_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void GP_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void PF_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void MF_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+}
+void AC_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+}
+void MC_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+}
+void XM_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+}
+void VE_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
+void SX_handler(void){
+
+	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
+} 
 
 void irq0_handler(void) {
 	if(IRQ_handlers[IRQ0] != NULL)
