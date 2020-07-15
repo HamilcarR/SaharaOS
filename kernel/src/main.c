@@ -23,12 +23,12 @@ void _start(){
 	init_systems() ; 
 	set_attribute(0x0A);
 	display_memory((char*) 0xB8000 , 8 , 16 , 0x0E , false);
-	
-	while(1) {
+	5/0 ; 	
 
-		beep( 600 ,500) ;
-		sys_sleep(500) ;	
-	}
+	while(1) ;
+
+
+		
 }
 
 

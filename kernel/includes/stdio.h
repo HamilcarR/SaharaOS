@@ -9,7 +9,7 @@
 void kprint(const char* text , ... );
 
 
-
+void kprint_err(const char* text) ; 
 
 
 

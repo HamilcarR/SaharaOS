@@ -119,3 +119,33 @@ parameter:					// Am I a heretic ?
 
 
 
+
+
+
+
+
+
+void kprint_err(const char* text){
+	set_attribute(0x04) ; 
+	kprint(text) ; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
