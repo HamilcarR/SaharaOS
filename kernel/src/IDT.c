@@ -266,9 +266,9 @@ void irq0_handler(void) {
 }
  
 void irq1_handler(void) {
+	if(IRQ_handlers[IRQ1] != NULL)
+		(*IRQ_handlers[IRQ1])() ; 
 
-        char c = keyboard_handler();
-	putchar(c) ;
 	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
  
