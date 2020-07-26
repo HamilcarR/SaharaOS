@@ -52,7 +52,7 @@ uint32_t* is_allocated(uint32_t* ptr ){
 uint32_t* allocate_next_block(size_t size ,  MEM_HEADER* block) {
 	uint32_t* next_addr =(uint32_t*) ( block->block_pointer + sizeof(MEM_HEADER) + block->size)  ; 
 	block->next_block_pointer = next_addr ; 
-	if( size > (uint32_t*) (END_HEAP) - (next_addr + sizeof(MEM_HEADER))) 
+	if( size > (uint32_t) ((uint32_t*) (END_HEAP) - (next_addr + sizeof(MEM_HEADER)))) 
 		return NULL ; 
 	MEM_HEADER* new_header = (MEM_HEADER*) next_addr ; 
 	new_header->descriptor = 0x80 ; 

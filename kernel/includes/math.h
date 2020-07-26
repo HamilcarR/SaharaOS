@@ -4,7 +4,6 @@
 
 
 
-
 /* returns pow(x , exp) */
 int pow (int arg , int exp);
 

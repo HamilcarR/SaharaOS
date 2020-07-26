@@ -12,7 +12,7 @@
 void set_bit(uint32_t* bitset , uint32_t idx){
 	uint32_t seg = idx / (sizeof(uint32_t) * 8) ; 
 	uint32_t offset = idx % (sizeof(uint32_t) * 8); 
-	bitset[seg] = bitset[seg] | ( 1 << (sizeof(uint32_t) * 8 - 1)  - offset) ; 
+	bitset[seg] = bitset[seg] | ( 1 << ((sizeof(uint32_t) * 8 - 1)  - offset)) ; 
 }
 
 
@@ -21,7 +21,7 @@ void set_bit(uint32_t* bitset , uint32_t idx){
 void clear_bit(uint32_t* bitset , uint32_t idx){
 	uint32_t seg = idx / (sizeof(uint32_t) * 8) ; 
 	uint32_t offset = idx % (sizeof(uint32_t) * 8); 
-	bitset[seg] = bitset[seg] & ~( 1 << (sizeof(uint32_t) * 8 - 1)  - offset) ; 
+	bitset[seg] = bitset[seg] & ~( 1 << ((sizeof(uint32_t) * 8 - 1)  - offset)) ; 
 
 }
 

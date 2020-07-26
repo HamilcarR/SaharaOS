@@ -1,4 +1,9 @@
 #include "../includes/video.h" 
+#define VIDEO_MEMORY 0xB8000 
+
+
+
+
 
 
 
@@ -7,14 +12,6 @@ static uint8_t cursorY ; //cursor column position number
 unsigned char* buffer ; //variable following the vga buffer location 
 unsigned char* char_buffer ;
 static uint8_t current_color = 0x0E; 
-
-
-/*****************************************************************************************/
-
-void set_attribute(uint8_t attrib) {
-	current_color = attrib ; 
-
-}
 
 
 
@@ -117,8 +114,10 @@ void video_write(const char *string , bool erase){
 			}
 		}
 	}	
-	if(cursorX == ROWS)
-		scroll_screen(); 
+	if(cursorX == ROWS){
+		scroll_screen();
+		video_write(string , erase); 
+	}
 	else
 		move_cursor(cursorX , cursorY ) ;
 }
@@ -204,6 +203,14 @@ void putchar(char c) {
 
 
 
+
+
+/*****************************************************************************************/
+
+void set_attribute(uint8_t attrib) {
+	current_color = attrib ; 
+
+}
 
 
 

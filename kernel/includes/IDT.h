@@ -2,8 +2,11 @@
 #define IDT_H
 #include <stdint.h>
 #include "../../drivers/ports/includes/IO_ports.h"
+#include "Kconstants.h"
+
+
 #define _BASE_IDT 0x00000000
-#define _SIZE_IDT 0xFF 
+#define _SIZE_IDT 256 
 
 
 
@@ -16,7 +19,7 @@
 #define BREAKPOINT			0x03
 #define OVERFLOW 			0x04
 #define BOUND_RANGE_EXCEEDED		0x05
-#define INVALID_OPCODE			0x06
+#define INVALID_OPCODE_ERR		0x06
 #define DEVICE_NOT_AVAILABLE		0x07
 #define DOUBLE_FAULT			0x08
 #define COPROC_SEG_OVERRUN		0x09
@@ -24,7 +27,7 @@
 #define SEG_NOT_PRESENT			0x0B
 #define STACK_SEG_FAULT			0x0C
 #define GENERAL_PROTECTION_FAULT	0x0D
-#define PAGE_FAULT	     		0x0E
+#define PAGE_FAULT_ERR	     		0x0E
 #define x87_FLOATING_POINT_EXCEPTION	0x10
 #define ALIGNMENT_CHECK			0x11
 #define MACHINE_CHECK			0x12
@@ -32,7 +35,6 @@
 #define VIRTUALIZATION_EXCEPTION	0x14
 #define SECURITY_EXCEPTION		0x1E
 #define RESERVED			0x1F
-
 
 
 
@@ -105,11 +107,11 @@ typedef struct IDT_ENTRY {
 
 
 typedef struct IDT_PTR{
-	uint16_t limit ; 
-	uint32_t base ; 
+	uint16_t  limit ; 
+	uint32_t  base  ; 
 
 
-}__attribute__((packed)) IDT_PTR ; 
+} __attribute__((packed)) IDT_PTR ; 
 
 void init_idt() ; 
 

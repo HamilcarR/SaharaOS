@@ -7,7 +7,7 @@
 
 
 
-/* Heap implementation */
+/* Dynamic memory management , no paging , and prone to mem fragmentation , but simple*/
 
 #define END_HEAP 0x10000
 

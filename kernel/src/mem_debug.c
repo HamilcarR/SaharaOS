@@ -9,13 +9,13 @@
 /*                This reads memory at location "address_start"
  *                it produces the hexadecimal code in A and the ascii in B
  *		
- *			padding
- *		----------------------
- *  	  |	53 61 68 FF FF FF FF FF     S a h . . . . .      
- * size * |	FF FF FF FF FF FF FF FF     . . . . . . . .
- * padding|	FF FF FF FF FF FF FF FF     . . . . . . . . 
+ *					padding
+ *				----------------------
+ *  		$3000	  |	53 61 68 FF FF FF FF FF     S a h . . . . .      
+ * size * 	$3009	  |	FF FF FF FF FF FF FF FF     . . . . . . . .
+ * padding	$3011	  |	FF FF FF FF FF FF FF FF     . . . . . . . . 
  *
- *			A			    B
+ *				 	A			    B
  *
  * "padding" is the number of elements on one line
  * "size" represents total memory read

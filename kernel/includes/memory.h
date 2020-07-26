@@ -9,7 +9,7 @@
  */
 
 
-//write memory at location 'destination' , to 'destination + count_bytes - 1 ' , with 'value' 
+//initialize each byte from memory 'dest' into 'value' , 'count_bytes' times
 //returns destination address
 
 void* memset (void* dest , int value , size_t count_bytes) ; 

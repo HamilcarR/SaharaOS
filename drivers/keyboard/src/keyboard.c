@@ -1,4 +1,6 @@
 #include "../includes/keyboard.h"
+#include "../../display/includes/video.h" 
+#include "../../../kernel/includes/IDT.h"
 
 #define DATA_PORT 0x60
 #define STATUS_REG 0x64 //in read mode
@@ -49,17 +51,13 @@ const uint8_t ALPHANUM_RANGE_END = 0x58 ;
 
 
 
-char keyboard_handler(){
-
-
+void keyboard_handler(){
 	uint8_t c = port_byte_in(DATA_PORT) ; 		
 	if ( c >= ALPHANUM_RANGE_BEGIN && c <= ALPHANUM_RANGE_END)
-		return ALPHANUM_PRESSED[c] ;
-	else
-		return '\0' ; 
-
-
-
+		putchar(ALPHANUM_PRESSED[c]) ;
 }
 
+void init_keyboard(){
+	register_idt_handler(IRQ1 , &keyboard_handler); 
 
+}

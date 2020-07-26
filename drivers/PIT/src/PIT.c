@@ -13,8 +13,7 @@
 volatile uint32_t tick ; 
 
 void increment_tick(){
-	tick ++ ; 
-
+	tick ++ ;
 }
 
 

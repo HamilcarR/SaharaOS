@@ -33,23 +33,11 @@ typedef struct KEYCODE{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+void init_keyboard(); 
 
 
 /* handles keyboard inputs */
-char keyboard_handler(); 
+void keyboard_handler(); 
 
 
 

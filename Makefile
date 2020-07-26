@@ -1,7 +1,7 @@
 EXEC = SaharaOS
 
 CC = gcc 
-CFLAGS = -fno-PIC -mno-red-zone -fno-stack-protector -std=c11 -m32 -g -ffreestanding -pedantic -Wall  
+CFLAGS = -fno-PIC -mno-red-zone -fno-stack-protector  -m32 -g -ffreestanding -pedantic -Wall -Wextra 
 
 BOOTLOADER_DIR = ./bootloader
 BOOTLOADER = $(BOOTLOADER_DIR)/bootloader.bin
@@ -38,10 +38,10 @@ all : run
 $(EXEC) : assemble
 
 debug : $(EXEC) $(KDEBUG)
-	qemu-system-i386 -soundhw pcspk -S -gdb tcp::9000 $<
+	qemu-system-i386  -d int -no-reboot -no-shutdown -soundhw pcspk -S -gdb tcp::9000 $<
 
 run : $(EXEC) 
-	qemu-system-i386 -soundhw pcspk -d guest_errors $<
+	qemu-system-i386 -s -soundhw pcspk -d int  -no-reboot -no-shutdown $< 
 
 disassemble : $(KERNEL)
 	ndisasm -b 32 $? | cat
@@ -50,7 +50,7 @@ disassemble : $(KERNEL)
 
 assemble : $(BOOTLOADER) $(KERNEL) 
 	cat $^ > $(EXEC) 
-	qemu-img resize $(EXEC) +100K
+	qemu-img resize $(EXEC) +150K
 
 OBJDUMP : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) $(OBJ_ASM_K) 
 	ld -T dscript.ld -o $@ $^
@@ -62,6 +62,7 @@ $(KERNEL) : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) $(OBJ_ASM_K)
 
 $(KDEBUG) : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) $(OBJ_ASM_K) 
 	ld -melf_i386 -T dscript.ld -o $@ $^
+	ld -T dscript.ld -o $@ $^ 
 
 %.o : %.c $(KERNEL_INC) $(DRIVERS_INC) 
 	$(CC) $(CFLAGS) -c $< -o $@

@@ -72,9 +72,8 @@ char* strchr(const char* str , int c) {
 /*****************************************************************************************/
 
 int tolower(int c){
-	char ch = (char) c ; 
-	if(ch <= 0x5A && ch >= 0x41) 
-		return (int) ( c | 0x20) ; 
+	if(c <= 0x5A && c >= 0x41) 
+		return ( c | 0x20) ; 
 	return c ; 
 	//TODO EOF ? 
 }
@@ -82,10 +81,9 @@ int tolower(int c){
 /*****************************************************************************************/
 
 int toupper(int c) {
-	char ch = (int) c ; 
-	if(ch <= 0x7A && ch >= 0x61)
-		return (int) ( c & 0xDF) ; 
-	return ch ; 
+	if(c <= 0x7A && c >= 0x61)
+		return ( c & 0xDF) ; 
+	return c ; 
 }
 
 /*****************************************************************************************/
@@ -283,8 +281,19 @@ const char* ftostr(double number) {
 
 
 
+/*****************************************************************************************/
+const char* binary_str(uint32_t value) {
+	static char array[sizeof(uint32_t)*8 + 1] = {0} ; 
+	uint32_t i = 0 ; 
+	for( ; i < sizeof(uint32_t)*8 ; i++)
+		array[i] = (value << i) & 0x80000000 ? '1' : '0' ; 
+
+	array[i] = 0 ; 
+	return (const char*) array; 
 
 
+
+}
 
 
 

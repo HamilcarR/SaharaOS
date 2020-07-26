@@ -30,10 +30,11 @@ SECTIONS
 	{
 		*(COMMON)
 		*(.bss)
-	_END_KERNEL_ADDRESS = . ;  
+
 	}
 
 
+	_END_KERNEL_ADDRESS = . ;  
 
 
 }

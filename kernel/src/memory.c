@@ -9,7 +9,7 @@
 void * memset ( void* dest , int value , size_t count){
 	unsigned char* memory = (unsigned char*) dest ; 
 	while(count>0){
-		*memory = (unsigned char) value ;  
+		*memory = value ;  
 		memory++ ; 
 		count--; 
 	}
@@ -39,7 +39,7 @@ void* memmove(void* dest , const void* src , size_t count_bytes){
 			return memcpy (dest , src , count_bytes) ; 
 	else if ( ((uintptr_t *) dest) > ((uintptr_t *) src) ) {
 		size = count_bytes-1 ;
-		while(size >= 0) {
+		while(size != 0) {
 			*((uint8_t*) dest + size) = *((const uint8_t*) src + size) ;
 			if(size == 0) break ;  
 			size -- ; 

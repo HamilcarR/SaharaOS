@@ -55,7 +55,7 @@ int stoi(const char* str) ;
 /*returns string representation of f , precision is the number of decimal digits*/
 const char* ftostr(double f) ; 
 
-
+const char* binary_str(uint32_t) ; 
 
 
 #endif 

@@ -6,16 +6,16 @@
 
 
 
-void empty_buffer(char* buffer , size_t size){
-	int i = 0 ; 
-	for(i = 0 ; i < size ; i++)
+static void empty_buffer(char* buffer , size_t size){
+	size_t i = 0 ; 
+	for(; i < size ; i++)
 		buffer[i] = 0 ; 
 
 
 
 }
 
- void add_value(char* buffer , char *c ,  int *buffer_position ){
+static void add_value(char* buffer , char *c ,  int *buffer_position ){
 
 		if(*buffer_position < BUFFER_SIZE  ) { 
 			buffer[*buffer_position] = *c ; 
@@ -23,7 +23,7 @@ void empty_buffer(char* buffer , size_t size){
 		}
 		else{
 			/* if buffer is complete , we flush */
-			VGA_video_write((const char*) buffer , false) ;
+			video_write((const char*) buffer , false) ;
 			empty_buffer(buffer , BUFFER_SIZE) ;
 			*buffer_position = 0 ; 
 		}
@@ -38,11 +38,10 @@ void kprint(const char* text , ... ) {
 	static char buffer[BUFFER_SIZE] ;  //string buffer, end with '\0'
 	empty_buffer(buffer , BUFFER_SIZE) ; 
 	int buffer_position = 0 ; 
-	VGA_set_to_attribute_default() ; 
+	set_attribute(0x0E); 
 	char *c =(char*) text ; 
+
 	while(*c != '\0'){
-
-
 		if( *c == '%'){ 
 parameter:					// Am I a heretic ? 
 			c++ ; 
@@ -91,7 +90,7 @@ parameter:					// Am I a heretic ?
 				case 'b' : ;     //binary
 					uint32_t val = va_arg(args , uint32_t) ; 
 					const char* binary = binary_str(val);
-					char* strr = binary ; 
+					char* strr =(char*) binary ; 
 					for(; *strr !=  '\0' ; strr++)
 						add_value(buffer , strr , &buffer_position) ; 
 				break;
@@ -113,7 +112,7 @@ parameter:					// Am I a heretic ?
 		c++ ; 
 	}
 
-	VGA_video_write((const char*) buffer  , false) ; 
+	video_write((const char*) buffer  , false) ; 
 
 
 
@@ -130,7 +129,7 @@ parameter:					// Am I a heretic ?
 
 
 void kprint_err(const char* text){
-	VGA_set_attribute(0x04) ; 
+	set_attribute(0x04) ; 
 	kprint(text) ; 
 }
 
