@@ -32,27 +32,24 @@ typedef struct page_entry_t{
 	uint32_t UNUS: 3 ; 
 	uint32_t frame_addr : 20 ; //highest bits  
 
-}__attribute__((packed)) page_entry_t ; 
+} page_entry_t ; 
 
 
 
 
 
 typedef struct page_table_t{
-	page_entry_t entries[1024] ; 
+	uint32_t entries[1024] ; 
 
 }__attribute__((aligned(0x1000))) page_table_t ; 
 
 typedef struct page_directory_t{
 	page_table_t *tables[1024];
-	uint32_t table_phys_addr[1024]; 
 }__attribute__((aligned(0x1000))) page_directory_t ; 
 
 
 void init_paging();
 
-//returns first free frame
-int32_t get_first_free_frame(); 
 
 
 uint32_t kmalloc_std(uint32_t size); 
@@ -60,11 +57,7 @@ uint32_t kmalloc_phys(uint32_t size , uint32_t* phys);
 uint32_t kmalloc_a(uint32_t size); 
 
 
-void allocate_frame(page_entry_t* page , int kernel_space , int write) ;
-void dealloc_frame(page_entry_t* page) ; 
 
-//looks for the address in the pages entries ... If not present and if make = 1 , create the page
-page_entry_t* get_page(uint32_t address , int make , page_directory_t* dir);
 
 
 void page_fault(); 

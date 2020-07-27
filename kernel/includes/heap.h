@@ -7,8 +7,7 @@
 
 
 
-/* Dynamic memory management , no paging , and prone to mem fragmentation , but simple*/
-
+/* dynamic physical memory manager*/
 #define END_HEAP 0x10000
 
 

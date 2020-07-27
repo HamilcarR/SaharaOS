@@ -16,21 +16,24 @@
 void init_systems(){
 
 
+	init_paging();	
 	init_idt();		
 	init_video();
 	init_timer(1000);
-	clear_screen() ;
-
-
+	clear_screen() ;	
 //	init_heap() ; 
 	init_keyboard();
 
-	init_paging();	
+	
 
 }
 
 void _start(){
 	init_systems() ; 
+	uint32_t *A = (uint32_t*) 0x10000000 ;
+	kprint("stuff stuff stuff\n") ; 
+	display_memory((char*) 0xB8000 , 8 , 16 , 0x0E, false); 
+
 }
 
 
