@@ -2,7 +2,7 @@
 #define KEYBOARD_H
 
 #include "../../ports/includes/IO_ports.h" 
-
+#include "../../../kernel/includes/IDT.h"
 
 
  enum STATUS {
@@ -33,21 +33,13 @@ typedef struct KEYCODE{
 
 
 
-void init_keyboard(); 
+void kbdriver_init_keyboard(); 
 
 
 /* handles keyboard inputs */
-void keyboard_handler(); 
+void keyboard_handler(reg_struct_t reg); 
 
-
-
-
-
-
-
-
-
-
+char kbdriver_get_char();
 
 
 

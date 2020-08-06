@@ -10,7 +10,9 @@ typedef enum { false = 0 , true = 1} bool;
 extern const void* _END_KERNEL_ADDRESS ; 
 
 
-
+typedef struct reg_struct_t{
+	uint32_t EDI , ESI , EBP , ESP , EBX , EDX , ECX , EAX ; 
+}reg_struct_t;
 
 
 

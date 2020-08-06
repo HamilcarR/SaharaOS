@@ -159,13 +159,13 @@ tree_node_t* binary_tree_node_create(void* data){
 	node->data = data ; 
 	node->right = NULL ; 
 	node->left = NULL ; 
-
+	return node ; 
 }
 
 
 /**********************************************************/
 void tree_rec_add(tree_node_t* root , tree_node_t* node , int (*compare_function)(void* X , void* Y)){
-		if(compare_function(root->data , node->data) == -1){ //node->data < root->data 
+		if(compare_function(root->data , node->data) == 1){ //node->data < root->data 
 			if(root->left != NULL)
 				tree_rec_add(root->left , node , compare_function) ; 	
 			else{
@@ -234,6 +234,49 @@ void binary_tree_functor_DFS(binary_tree_t* tree , void (*functor)(void* X)){
 
 /**********************************************************/
 
+
+
+
+tree_node_t* tree_search_DFS(tree_node_t* root , tree_node_t* node , int (*compare_function)(void* X , void* Y) , void* provided){
+		int comp = compare_function(root->data , provided); 
+		if(comp == 0) 
+			return root ; 
+		if(comp == -1){
+			if(root->right != NULL)
+				return tree_search_DFS(root->right , node , compare_function , provided) ; 
+			else
+				return node ; 
+		}
+		else{
+			node = root ;
+			if(root->left != NULL)
+				return tree_search_DFS(root->left , node , compare_function , provided) ; 
+			else
+				return node ; 
+
+		}
+			
+
+
+
+}
+
+
+
+
+
+tree_node_t* binary_tree_search_smallest(binary_tree_t* tree , int (*compare_function)(void* X , void*Y), void* provided){
+	if(tree == NULL)
+		return NULL ; 
+	if(tree->root == NULL)
+		return NULL ; 
+	tree_node_t* node  = NULL  ; 
+	return tree_search_DFS(tree->root , node , compare_function , provided) ; 
+}
+
+
+
+/**********************************************************/
 void rec_add_subtree(binary_tree_t* tree , tree_node_t* subtree , int (*compare_function)(void* X , void* Y)){
 		if(subtree != NULL){
 			tree_node_t* left = subtree->left ; 

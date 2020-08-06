@@ -1,10 +1,11 @@
 #include "../includes/keyboard.h"
 #include "../../display/includes/video.h" 
-#include "../../../kernel/includes/IDT.h"
+
 
 #define DATA_PORT 0x60
 #define STATUS_REG 0x64 //in read mode
 #define COMMAND_REG 0x64 //in write mode
+
 
 
 
@@ -41,23 +42,43 @@ const char ALPHANUM_PRESSED[] = {
 const uint8_t ALPHANUM_RANGE_BEGIN = 0x00 ; 
 const uint8_t ALPHANUM_RANGE_END = 0x58 ; 
 
+static char driver_keyboard_buffer[32] __attribute__((section(".data"))) ;
+
+char kbdriver_get_char(){
+	int i = 0 ; 
+	char* ptr = (char*) driver_keyboard_buffer ;
+	char ret = *ptr ; 
+	for(; i < 31 && *ptr != 0 ; i++ , ptr++)
+		driver_keyboard_buffer[i] = driver_keyboard_buffer[i+1] ; 
+	*ptr = 0 ;
+	return ret ; 
+}
 
 
+void add_to_buffer(char val){
+	char* c = (char*) driver_keyboard_buffer; 
+	while(*c != 0) 
+		c++; 
+	*c = val ; 
+
+}
 
 
-
-
-
-
-
-
-void keyboard_handler(){
+void keyboard_handler(reg_struct_t reg){
 	uint8_t c = port_byte_in(DATA_PORT) ; 		
 	if ( c >= ALPHANUM_RANGE_BEGIN && c <= ALPHANUM_RANGE_END)
-		putchar(ALPHANUM_PRESSED[c]) ;
+		add_to_buffer(ALPHANUM_PRESSED[c]) ; 
 }
 
-void init_keyboard(){
+void kbdriver_init_keyboard(){
 	register_idt_handler(IRQ1 , &keyboard_handler); 
-
+	int i = 0 ; 
+	for(; i < 32 ; i++)
+		driver_keyboard_buffer[i] = 0 ; 
 }
+
+
+
+
+
+

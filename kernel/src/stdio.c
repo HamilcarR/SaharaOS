@@ -32,6 +32,27 @@ static void add_value(char* buffer , char *c ,  int *buffer_position ){
 
 
 
+
+void write_binary(uint32_t value ,char *buffer ,  int* buffer_position ){
+	const char* binary = binary_str(value);
+	char* strr =(char*) binary ; 
+	for(; *strr !=  '\0' ; strr++)
+		add_value(buffer , strr , buffer_position) ; 
+
+}
+
+
+void write_hex(uint32_t value , char* buffer , int* buffer_position){
+	const char* hex =(const char*) to_hex(value , BIT_32); 
+	char* strr = (char*) hex ; 
+	for(; *strr != '\0' ; strr++)
+		add_value(buffer , strr , buffer_position); 
+
+}
+
+
+
+
 void kprint(const char* text , ... ) {
 	va_list args ; 
 	va_start( args , text ) ; 
@@ -83,16 +104,13 @@ parameter:					// Am I a heretic ?
 						add_value(buffer , str  , &buffer_position) ; 
 				break ; 
 
-				case 'x' :       //hexa integer
-					
+				case 'h' : ;      //hexa integer 32bits(for now)
+						write_hex(va_arg(args,uint32_t) , buffer , &buffer_position); 
 				break ; 
 				
 				case 'b' : ;     //binary
 					uint32_t val = va_arg(args , uint32_t) ; 
-					const char* binary = binary_str(val);
-					char* strr =(char*) binary ; 
-					for(; *strr !=  '\0' ; strr++)
-						add_value(buffer , strr , &buffer_position) ; 
+					write_binary(val ,buffer ,  &buffer_position); 			
 				break;
 					   
 				default : ;

@@ -29,6 +29,12 @@ char* strstr(const char* str1 , const char* str2) ;
 /* returns pointer to first occurence of character c if found ,or NULL if not*/
 char* strchr(const char* str , int c) ; 
 
+/*compares two strings
+ * returns 0 if equal
+ * -1 if first < second
+ * 1 if first > second , in lexic order
+ */
+int strcmp(const char* first , const char* second); 
 
 /*returns lowercase of character*/
 int tolower(int c) ;

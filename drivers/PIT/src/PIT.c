@@ -12,7 +12,7 @@
 
 volatile uint32_t tick ; 
 
-void increment_tick(){
+void increment_tick(reg_struct_t reg){
 	tick ++ ;
 }
 

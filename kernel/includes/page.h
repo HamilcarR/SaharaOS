@@ -60,9 +60,9 @@ uint32_t kmalloc_a(uint32_t size);
 
 
 
-void page_fault(); 
-
-
+void page_fault(reg_struct_t reg); 
+void set_page_fault_handler(); 
+uint32_t get_first_free_frame(); 
 
 
 

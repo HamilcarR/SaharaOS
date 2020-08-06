@@ -29,7 +29,7 @@ static uint16_t KERNEL_CODE_SEG_OFFSET  = 0x08 ; //see GDT in bootloader
 
 
 
-IDT_ENTRY idt[256] ; 
+static IDT_ENTRY idt[256] ; 
 IDT_PTR idt_ptr ; 
 
 extern int32_t load_idt(); 
@@ -48,6 +48,8 @@ extern int32_t irq1(); //keyboard
 extern int32_t _DE(); //Divide by zero error
 extern int32_t _PF(); //Page fault error 
 extern int32_t _UD(); //Invalid opcode
+extern int32_t _DF(); //Double fault
+
 
 static void init_PIC(){
 	port_byte_out(PICM , 0x11) ; //write command to PIC master and slave
@@ -109,7 +111,7 @@ static void init_idt_array(){
 
 
 
-static void (*IRQ_handlers[256])(void) ; 
+static void (*IRQ_handlers[256])(reg_struct_t) ; 
 
 void init_idt() {	
 
@@ -123,6 +125,7 @@ void init_idt() {
 	set_gate(DIVIDE_BY_ZERO_ERROR , _DE) ; 
 	set_gate(PAGE_FAULT_ERR , _PF) ;
 	set_gate(INVALID_OPCODE_ERR , _UD);
+	set_gate(DOUBLE_FAULT_ERR , _DF) ;
 
 	//interrupt gates
 	set_gate(IRQ0 , irq0); 
@@ -140,7 +143,7 @@ void init_idt() {
 
 
 
-void register_idt_handler(uint8_t irq , void (*function)(void)){
+void register_idt_handler(uint8_t irq , void (*function)(reg_struct_t)){
 
 	IRQ_handlers[irq] = function ; 
 
@@ -154,7 +157,7 @@ const char* EXCEPTIONS_TXT[22] = { "Exception raised : Divide by zero" , //0x00
 				   0,
 				   "Exception raised : Invalid opcode" , //0x06
 				   0,//0x07
-				   0,//0x08
+				   "Exception raised : Double fault",//0x08
 				   0,//0x09
 				   0,//0x0A
 				   0,//0x0B
@@ -176,28 +179,36 @@ void DE_handler(void) {
 	K_PANIC(EXCEPTIONS_TXT[DIVIDE_BY_ZERO_ERROR], __func__ , __FILE__ , __LINE__) ; 
 }
 void PF_handler(void){
-
+	reg_struct_t a ; 
+	if(IRQ_handlers[PAGE_FAULT_ERR] != NULL)
+		(*IRQ_handlers[PAGE_FAULT_ERR])(a); 
 	K_PANIC(EXCEPTIONS_TXT[PAGE_FAULT_ERR] , __func__ , __FILE__ , __LINE__) ; 
 
 }
 void UD_handler(void){
+	K_PANIC(EXCEPTIONS_TXT[DOUBLE_FAULT_ERR] , __func__ , __FILE__ , __LINE__); 
+
+}
+
+void DF_handler(void){
+
 	K_PANIC(EXCEPTIONS_TXT[INVALID_OPCODE_ERR] , __func__ , __FILE__ , __LINE__); 
 
 }
 
 
-
-
 void irq0_handler(void){
+	reg_struct_t a ; 
 	if(IRQ_handlers[IRQ0] != NULL)
-		(*IRQ_handlers[IRQ0])(); 
+		(*IRQ_handlers[IRQ0])(a); 
 	port_byte_out(PICM_COMMAND , PIC_EOI); 
 
 }
  
 void irq1_handler(void) {
+	reg_struct_t a ; 
 	if(IRQ_handlers[IRQ1] != NULL)
-		(*IRQ_handlers[IRQ1])() ; 
+		(*IRQ_handlers[IRQ1])(a) ; 
 	port_byte_out(PICM_COMMAND , PIC_EOI) ; 
 }
 

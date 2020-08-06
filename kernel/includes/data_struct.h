@@ -68,7 +68,12 @@ struct binary_tree_t{
 
 
 
-
+/*
+ * compare_function 
+ * 	returns -1 if X < Y
+ * 	returns 1 if X > Y 
+ * 	returns 0 if X == Y 
+ */
 
 binary_tree_t* binary_tree_create() ; 
 tree_node_t* binary_tree_add(binary_tree_t* tree , tree_node_t* node , int (*compare_function)(void* X , void* Y));
@@ -77,6 +82,7 @@ tree_node_t* binary_tree_add(binary_tree_t* tree , tree_node_t* node , int (*com
 binary_tree_t* binary_tree_add_subtree(binary_tree_t* tree , tree_node_t* subtree , int (*compare_function) (void* X , void*Y)); 
 tree_node_t* binary_tree_node_create(void* data);
 tree_node_t* binary_tree_node_remove(binary_tree_t* tree , tree_node_t* node , int (*compare_function)(void* X , void*Y)); 
+tree_node_t* binary_tree_search_smallest(binary_tree_t* tree , int (*search_function)(void *node_data , void *provided_data) , void* provided); 
 void binary_tree_functor_DFS(binary_tree_t* tree , void (*functor) (void*)); 
 
 

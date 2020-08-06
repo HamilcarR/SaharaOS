@@ -19,6 +19,9 @@ global _PF
 extern UD_handler
 global _UD
 
+extern DF_handler
+global _DF
+
 extern irq0_handler
 global irq0
 
@@ -44,6 +47,13 @@ _UD:
 	call UD_handler
 	popa
 	iretd
+
+_DF:
+	pusha
+	call DF_handler
+	popa
+	iretd
+
 
 irq0:
 	pusha

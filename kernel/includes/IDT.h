@@ -21,7 +21,7 @@
 #define BOUND_RANGE_EXCEEDED		0x05
 #define INVALID_OPCODE_ERR		0x06
 #define DEVICE_NOT_AVAILABLE		0x07
-#define DOUBLE_FAULT			0x08
+#define DOUBLE_FAULT_ERR		0x08
 #define COPROC_SEG_OVERRUN		0x09
 #define INVALID_TSS			0x0A
 #define SEG_NOT_PRESENT			0x0B
@@ -116,7 +116,7 @@ typedef struct IDT_PTR{
 void init_idt() ; 
 
 
-void register_idt_handler(uint8_t irq , void (*func)(void)) ; 
+void register_idt_handler(uint8_t irq , void (*func)(reg_struct_t reg)) ; 
 
 
 

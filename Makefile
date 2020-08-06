@@ -1,7 +1,7 @@
 EXEC = SaharaOS
 
 CC = gcc 
-CFLAGS = -fno-PIC -mno-red-zone -fno-stack-protector  -m32 -g -ffreestanding -pedantic -Wall -Wextra 
+CFLAGS = -fno-PIC -mno-red-zone -m32 -g -ffreestanding -pedantic -Wall -Wextra  
 
 BOOTLOADER_DIR = ./bootloader
 BOOTLOADER = $(BOOTLOADER_DIR)/bootloader.bin
@@ -50,7 +50,7 @@ disassemble : $(KERNEL)
 
 assemble : $(BOOTLOADER) $(KERNEL) 
 	cat $^ > $(EXEC) 
-	qemu-img resize $(EXEC) +150K
+	qemu-img resize $(EXEC) +40K
 
 OBJDUMP : $(KERNEL_ENTRY) $(OBJ_D) $(OBJ_K) $(OBJ_ASM_K) 
 	ld -T dscript.ld -o $@ $^

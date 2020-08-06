@@ -16,7 +16,8 @@ SECTIONS
 		*(.text)
 
 	}
-	
+
+
 	.rodata BLOCK(4K) : ALIGN(4K)
 	{
 		*(.rodata)
@@ -34,6 +35,7 @@ SECTIONS
 
 
 	}
+
 
 
 	_END_KERNEL_ADDRESS = . ;  

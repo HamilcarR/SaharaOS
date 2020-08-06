@@ -30,7 +30,29 @@ char* strcpy(char* dest , const char* src){
 
 }
 
+/*****************************************************************************************/
+int strcmp(const char* first , const char* second){
+	char* ptr1 = (char*) first; 
+	char* ptr2 = (char*) second; 
+	if(first == NULL || second == NULL){
+		return 0xFFFFFFFF ; 
+	}
+	while(*ptr1 != 0 && *ptr2 != 0){
+		if(*ptr1 < *ptr2)
+			return -1 ; 
+		if(*ptr1 > *ptr2)
+			return 1 ; 
+		ptr1++ ; 
+		ptr2++ ; 
 
+	}
+	if(*ptr1 == 0 && *ptr2 != 0)
+		return -1 ; 
+	if(*ptr1 != 0 && *ptr2 == 0)
+		return 1 ; 
+	return 0 ; 
+
+}
 /*****************************************************************************************/
 
 char* strstr(const char* str1 , const char* str2){

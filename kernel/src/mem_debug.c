@@ -28,7 +28,7 @@
 void display_memory (char * address_start , uint8_t padding , uint32_t size ,uint8_t color ,bool erase) {
 	set_attribute(0x0) ; 
 	if(erase)
-		video_write("\0" , true); 
+		clear_screen(); 
 	else
 		video_write("\n" , false) ;  
 	unsigned char ascii_buffer[8] ={'\0'};
@@ -48,7 +48,7 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 				unsigned char* add_temp =(unsigned char*) start ; 
 				read_hex((unsigned char*)start , 8 , temp) ; 
 				char display[3] = { temp[0] , temp[1] , '\0'} ; 
-				set_attribute(0x0E); 
+				set_attribute(color); 
 				video_write(display , false) ;
 				ascii_buffer[j] = *add_temp ; 
 				video_write("  " , false) ;
@@ -81,7 +81,7 @@ void display_memory (char * address_start , uint8_t padding , uint32_t size ,uin
 
 /*****************************************************************************************/
 
-void display_byte(char byte , uint8_t color , bool erase ){
+void display_byte(char byte , uint8_t color ){
 	char* hex = to_hex((uint32_t) byte , BIT_8) ; 
 	set_attribute(color) ; 
 	video_write( hex , false) ; 
