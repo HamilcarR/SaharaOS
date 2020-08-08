@@ -7,7 +7,7 @@ Features implemented :
   - A VGA driver
   - Interrupts
   - Keyboard inputs
-  - Dynamic physical memory management
+  - Dynamic heap memory management
   - Added timer and sound driver
 
   ![Screenshot_20200702_165312](https://user-images.githubusercontent.com/18567118/86374491-ea402a00-bc84-11ea-8613-c5c6345fccdd.png)
