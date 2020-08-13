@@ -58,40 +58,25 @@ int search_func(void* X , void* Y){
 
 void _start(){
 	init_systems() ; 
-
-
+	char* array = (char*) kmalloc(sizeof(char) * 100) ;
 	int i = 0 ; 
-	int* array3 = (int*) kmalloc(6 * sizeof(int));
-	for(i = 0 ; i < 6 ; i++)
-		array3[i] ='c' ; 
-	kfree(array3); 
-
-	int *array = (int*) kmalloc(5 * sizeof(int)); 
-
-	for(i = 0; i < 5 ; i++)
-		array[i] = 0xFAFAFAFA ;
-
-
-	int *array2 = (int*) kmalloc(2 * sizeof(int)); 
-	for(i = 0 ; i < 2 ; i++)
-		array2[i] = 0xAAAAAAAA ; 
-
-
-	kprint("\t %h \n" , array) ; 
-	for(i = 0 ; i < 5 ; i++) 
-		kprint("%h\n" , array[i]); 
-	kprint("\n\n"); 
-
-	kprint("\t %h \n" , array2) ; 
-	for(i = 0 ; i < 2 ; i++) 
-		kprint("%h\n" , array2[i]); 
-	kprint("\n\n"); 
+	for(i = 0 ; i < 100 ; i++)
+		array[i] = 'd'; 
+	kfree(array); 
+	char* array2 = (char*) kmalloc(sizeof(char) * 99) ; 
+	for(i = 0 ; i < 99 ; i++)
+		array2[i] = 'c';
+	int* lol = kmalloc(sizeof(int) * 10 ) ;
+	memset(lol , 'F' , 10 * sizeof(int)); ;
+	kfree(lol); 
+	char* array3 = (char*) kmalloc(sizeof(char) * 39) ; 
+	for(i = 0 ; i < 80 ; i++)
+		array3[i] = 'e';
+	
+	display_memory((char*) (array+90) , 8 , 16, 0x0A , false); 
 
 
-	kprint("\t %h \n" , array3) ; 
-	for(i = 0 ; i < 6 ; i++) 
-		kprint("%c\n" ,(char) array3[i]); 
-	kprint("\n\n"); 
+
 
 
 
